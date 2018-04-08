@@ -73,9 +73,26 @@ npm run build
 #重启服务
 ./control restart
 ```
+## 配置ssh-key信任
+前提条件:gopub运行用户(如root)ssh-key必须加入目标机器的{remote_user}用户ssh-key信任列表
+
+``` shell
+
+#添加机器信任
+su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
+
+#need remote_user's password
+
+#免密码登录需要远程机器权限满足以下三个条件：
+/home/{remote_user} 755
+~/.ssh 700
+~/.ssh/authorized_keys 644 或 600
+```
+
 
 ## Getting started
 ### 1. 项目配置
+
 ![项目配置](docs/images/project.png)
 
 项目名称：xxx.example.com   （项目命名一定要规范并唯一）
