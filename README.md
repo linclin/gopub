@@ -1,6 +1,6 @@
 gopub（基于vue.js element框架+golang beego框架开发）是一个基于运维场景设计的企业级运维发布系统。配置简单、功能完善、界面流畅、开箱即用！支持git、jenkins版本管理，支持各种web代码发布，一键完成Golang,nodejs,PHP，Python，JAVA等代码的发布、回滚操作。
 
-我们运维团队前期使用walle(https://www.walle-web.io)web部署系统进行发布操作,在此也感谢walle团队贡献的优秀开源项目.walle的web体验比较好,本次开源的gopub前台完全模仿walle前台,使用vue.js element框架重写.
+我们运维团队前期使用walle(https://www.walle-web.io) web部署系统进行发布操作,在此也感谢walle团队贡献的优秀开源项目.walle的web体验比较好,本次开源的gopub前台完全模仿walle前台,使用vue.js element框架重写.
 
 gopub已在我们预发布和生产环境完成37000+次稳定部署,支持单项目100+台服务器部署110秒左右,支持2G+CDN静态资源发布传输30秒完成.
 ![统计](docs/images/index.png)
@@ -16,7 +16,7 @@ gopub已在我们预发布和生产环境完成37000+次稳定部署,支持单�
 * jenkins发布支持：支持jenkins编译包一键发布
 * ssh执行命令/传输文件：使用golang内置ssh库高效执行命令/传输文件
 * BT支持：大文件和大批量机器文件传输使用BT协议支持
-* 多项目部署:支持多项目多任务并行
+* 多项目部署:支持多项目多任务并行,内置[grpool协程池](https://github.com/linclin/grpool)支持并发操作命令和传输文件
 * 全web化操作：web配置项目,一键发布,一键快速回滚
 * API支持：提供所有配置和发布操作API,便于对接其他系统  [API使用example](api_example/example.go)
 * 部署钩子：支持部署前准备任务,代码检出后处理任务,同步后更新软链前置任务,发布完毕后收尾任务4种钩子函数脚本执行
