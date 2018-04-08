@@ -1,19 +1,13 @@
 package main
 
 import (
-	"crypto/rand"
-	"crypto/tls"
-	"crypto/x509"
 	"fmt"
-	"io/ioutil"
 	"library/p2p/init_sever"
 	"models"
 	"os"
 	"os/signal"
 	_ "routers"
 	"syscall"
-	"tasks"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/toolbox"
@@ -37,6 +31,7 @@ func initArgs() {
 func init() {
 	//初始化数据库
 	initArgs()
+	beego.Info("开始启动")
 	//连接MySQL
 	dbUser := beego.AppConfig.String("mysqluser")
 	dbPass := beego.AppConfig.String("mysqlpass")
@@ -115,25 +110,6 @@ func main() {
 
 	toolbox.StartTask()
 
-	//开启双向SSL认证,认证客户端证书
-	VerifyClientCert, _ := beego.AppConfig.Bool("VerifyClientCert")
-	if VerifyClientCert {
-
-		pool := x509.NewCertPool()
-		caCertPath := beego.AppConfig.String("CaCertFile")
-		caCrt, err := ioutil.ReadFile(caCertPath)
-		if err != nil {
-			panic("CA File 读取错误::" + err.Error())
-		}
-		pool.AppendCertsFromPEM(caCrt)
-		config := tls.Config{
-			ClientAuth: tls.RequireAndVerifyClientCert,
-			//Certificates: []tls.Certificate{cert},
-			ClientCAs: pool,
-		}
-		config.Rand = rand.Reader
-		beego.BeeApp.Server.TLSConfig = &config
-	}
 	beego.Info(beego.BConfig.RunMode)
 	if beego.BConfig.RunMode != "docker" {
 		init_sever.Start()

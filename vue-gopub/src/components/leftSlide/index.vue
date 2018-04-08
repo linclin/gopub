@@ -70,24 +70,14 @@
                   title: "创建上线单",
                   path: "/task/create"
                 }]
-              }, {
-                title: "agent状态查询",
-                path: "/p2p/check",
-                icon: "ace-icon fa fa-desktop"
-              }, {
-                title: "预发布统计",
-                path: "/other/noauto",
-                icon: "el-icon-date"
               },{
                 title: "其他操作",
                 path: "/other",
                 icon: "fa-bar-chart-o",
-                child: [{
-                  title: "刷新版本号",
-                  path: "/other/flush"
-                },{
-                  title: "预发布git版本查看",
-                  path: "/other/gitpull"
+                child: [ {
+                  title: "agent状态查询",
+                  path: "/p2p/check",
+                  icon: "ace-icon fa fa-desktop"
                 }]
               }]
             }
@@ -107,14 +97,6 @@
                 }, {
                   title: "创建上线单",
                   path: "/task/create"
-                }]
-              },{
-                title: "其他操作",
-                path: "/other",
-                icon: "fa-bar-chart-o",
-                child: [{
-                  title: "预发布git版本查看",
-                  path: "/other/gitpull"
                 }]
               }]
             }

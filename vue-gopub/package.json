@@ -1,8 +1,8 @@
 {
   "name": "vue-gopub-admin",
   "version": "1.0.0",
-  "description": "A vue-element-admin project",
-  "author": "zzmhot <zzmhot@163.com>",
+  "description": "vue-gopub-admin",
+  "author": "gaoshan <chuanzegao@163.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
