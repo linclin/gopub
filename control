@@ -111,7 +111,7 @@ function rundocker() {
 }
 function init() {
    cd src/
-   ./$BASENAME -init
+   ./$BASENAME -syncdb
    #go run main.go
 }
 function beerun() {
