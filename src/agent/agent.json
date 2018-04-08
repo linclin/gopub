@@ -1,0 +1,15 @@
+{
+  "Name": "test",
+  "DownDir": "/data/gcz/gopub/src/agent/testData1/",
+  "net":{
+    "ip":"",
+    "MgntPort":1901,
+    "DataPort":1902,
+    "AgentMgntPort":1901,
+    "AgentDataPort":1902
+  },
+  "Auth": {
+    "Username": "1234",
+    "Password": "gopub"
+  }
+}
