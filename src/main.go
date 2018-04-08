@@ -137,8 +137,6 @@ func main() {
 	beego.Info(beego.BConfig.RunMode)
 	if beego.BConfig.RunMode != "docker" {
 		init_sever.Start()
-	}else if  beego.BConfig.RunMode != "init"   {
-
 	}
 	beego.Run()
 }
