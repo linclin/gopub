@@ -34,12 +34,10 @@ type Project struct {
 	PostRelease    string    `orm:"column(post_release);null"`
 	LastDeploy     string    `orm:"column(last_deploy);null"`
 	Audit          int16     `orm:"column(audit);null"`
-	Ansible        int16     `orm:"column(ansible)"`
 	KeepVersionNum int       `orm:"column(keep_version_num)"`
 	CreatedAt      time.Time `orm:"column(created_at);type(datetime);null"`
 	UpdatedAt      time.Time `orm:"column(updated_at);type(datetime);null"`
 	P2p            int16     `orm:"column(p2p)"`
-	Orgalorg       int16     `orm:"column(orgalorg)"`
 	HostGroup      string    `orm:"column(host_group)"`
 	Gzip           int16     `orm:"column(gzip)"`
 	PmsProName     string    `orm:"column(pms_pro_name);size(200)"`

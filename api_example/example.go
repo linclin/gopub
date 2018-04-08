@@ -46,7 +46,6 @@ type Project struct {
 	Orgalorg       int16     // 不填
 	HostGroup      string    // 不填
 	Gzip           int16     // 不填
-	PmsProName     string    //选填 发布系统关联
 }
 
 type Task struct {

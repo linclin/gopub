@@ -246,9 +246,7 @@ README.md" style="width: 400px;"></el-input>
                     Status: 1,
                     RepoMode: "branch",
                     Audit: 0,
-                    Ansible: 1,
                     P2p: 0,
-                    Orgalorg: 0,
                     Gzip: 1
                 },
                 route_id: this.$route.params.id,

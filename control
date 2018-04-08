@@ -1,4 +1,6 @@
 #!/bin/bash -e
+
+#golang相关参数
 export GOROOT=/usr/local/go
 export PATH=$PATH:/usr/local/go/bin/ 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -102,6 +104,16 @@ function run() {
    ./$BASENAME -docker
    #go run main.go 
 }
+function rundocker() {
+   cd src/
+   ./$BASENAME -docker
+   #go run main.go
+}
+function init() {
+   cd src/
+   ./$BASENAME -init
+   #go run main.go
+}
 function beerun() {
    cd src/
    bee run 
@@ -124,7 +136,7 @@ function sslkey() {
 
  
 function help() {
-    echo "$0 build|start|stop|kill|restart|reload|run|tail|docs|pack|beerun|sslkey"
+    echo "$0 build|start|stop|kill|restart|reload|run|rundocker|init|tail|docs|pack|beerun|sslkey"
 }
 if [ "$1" == "" ]; then
     help
@@ -145,7 +157,11 @@ elif [ "$1" == "reload" ];then
 elif [ "$1" == "status" ];then
     status
 elif [ "$1" == "run" ];then
-    run 
+    run
+elif [ "$1" == "rundocker" ];then
+    rundocker
+elif [ "$1" == "init" ];then
+    init
 elif [ "$1" == "beerun" ];then
     beerun 
 elif [ "$1" == "tail" ];then
@@ -158,4 +174,4 @@ else
     help
 fi
 #bee api  gopub -driver=mysql -conn="mysql:mysql888@tcp(192.168.143.62:3306)/walle"
-#bee api  uwrok-api -driver=mysql -conn="mysql:mysql888@tcp(127.0.0.1:3306)/wf_workflow1"
+
