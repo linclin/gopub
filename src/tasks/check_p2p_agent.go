@@ -1,9 +1,6 @@
 package tasks
 
 import (
-	"encoding/json"
-	"fmt"
-	"library/common"
 	"library/components"
 	"library/p2p/init_sever"
 	"models"
@@ -12,7 +9,6 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"github.com/astaxie/beego/utils"
 )
 
 type emailConfig struct {

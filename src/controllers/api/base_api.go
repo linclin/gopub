@@ -8,7 +8,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 )
-
+//TODO 另一版的api验证 废弃
 //基类
 type BaseApiController struct {
 	beego.Controller

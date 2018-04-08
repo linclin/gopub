@@ -6,7 +6,6 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	"log"
 	"os"
 	"time"
 )
@@ -14,10 +13,13 @@ import (
 var o orm.Ormer
 
 func Syncdb() {
+	beego.Info("数据库初始化开始")
 	err := createdb()
 	if err != nil {
+		beego.Error("数据库创建错误:",err)
 		return
 	}
+
 	Connect()
 	o = orm.NewOrm()
 	// 数据库别名
@@ -29,10 +31,11 @@ func Syncdb() {
 	// 遇到错误立即返回
 	err = orm.RunSyncdb(name, force, verbose)
 	if err != nil {
-		fmt.Println(err)
+		beego.Error("数据表创建错误:",err)
 	}
+	beego.Info("数据表创建完成")
 	insertUser()
-	fmt.Println("database init is complete.\nPlease restart the application")
+	beego.Info("数据添加完成")
 
 }
 
@@ -49,13 +52,14 @@ func Connect() {
 	//utils.Display("dbLink", dbLink)
 	err := orm.RegisterDriver("mysql", orm.DRMySQL)
 	if err != nil {
-		log.Println(err)
+		beego.Error("数据库连接错误:",err)
 		os.Exit(2)
 		return
 	}
 	err = orm.RegisterDataBase("default", "mysql", dbLink, maxIdleConn, maxOpenConn)
+	orm.Debug = true
 	if err != nil {
-		log.Println(err)
+		beego.Error("数据库连接错误:",err)
 		os.Exit(2)
 		return
 	}
@@ -74,23 +78,25 @@ func createdb() error {
 	var sqlstring string
 
 	dsn = fmt.Sprintf("%s:%s@tcp(%s:%s)/?charset=utf8", dbUser, dbPass, dbHost, dbPort)
-	sqlstring = fmt.Sprintf("CREATE DATABASE `%s` CHARSET utf8 COLLATE utf8_general_ci", dbName)
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
-		log.Println(err)
+		beego.Error("数据库连接错误:",err)
 		os.Exit(2)
 		//panic(err.Error())
 		return err
 	}
+	sqlstring1 := fmt.Sprintf("drop database if exists `%s` ", dbName)
+	db.Exec(sqlstring1)
+	sqlstring = fmt.Sprintf(" CREATE DATABASE `%s` CHARSET utf8 COLLATE utf8_general_ci", dbName)
 	r, err := db.Exec(sqlstring)
 	if err != nil {
-		log.Println(err)
-		log.Println(r)
+		beego.Info(err)
+		beego.Info(r)
 		db.Close()
 		return err
 	} else {
 		db.Close()
-		log.Println("Database ", dbName, " created")
+		beego.Info("数据库"+dbName+"创建成功")
 		return nil
 	}
 

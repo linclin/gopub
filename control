@@ -1,6 +1,4 @@
 #!/bin/bash -e
-
-#golang相关参数
 export GOROOT=/usr/local/go
 export PATH=$PATH:/usr/local/go/bin/ 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
