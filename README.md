@@ -46,7 +46,7 @@ npm run build
 #执行数据库初始化
 ./control init
 
-#启动服务
+#启动服务 启动成功后 可访问 127.0.0.1:8092 用户名:admin 密码:123456
 ./control start
 
 #停止服务
@@ -64,7 +64,7 @@ npm run build
 
 #给control和src/gopub给可执行权限
 
-#启动服务
+#启动服务 启动成功后 可访问 127.0.0.1:8092 用户名:admin 密码:123456
 ./control start
 
 #停止服务
