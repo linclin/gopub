@@ -5,7 +5,7 @@
              element-loading-text="正在登陆中..."
              @keyup.enter="submit_form">
             <div class="login-title">
-                <div> 卷皮自动发布系统</div>
+                <div> 自动发布系统</div>
             </div>
             <div class="login-form">
                 <el-form ref="form" :model="form" :rules="rules" label-width="0">

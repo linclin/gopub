@@ -2,7 +2,7 @@
     <div class="left-side">
         <div class="left-side-inner">
             <router-link to="/" class="logo block">
-                <div style="color: white"> 卷皮自动发布系统</div>
+                <div style="color: white"> 自动发布系统</div>
 
             </router-link>
             <el-menu
