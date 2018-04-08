@@ -29,9 +29,50 @@ gopub已在我们预发布和生产环境完成37000+次稳定部署,支持单�
 ### 源码下载
 
 ``` shell
- 
+# 克隆项目
+git clone https://gitee.com/dev-ops/gopub.git
+
+# 编译前端,npm较慢可使用cnpm
+
+cd vue-gopub
+npm install
+npm run build
+
+#修改配置 数据库配置文件在 src/conf/app.conf
+
+#编译,control需要给可执行权限,并修改go安装目录 export GOROOT=/usr/local/go
+./control build
+
+#执行数据库初始化
+./control init
+
+#启动服务
+./control start
+
+#停止服务
+./control stop
+
+#重启服务
+./control restart
 ```
 
+### 快速使用
+
+``` shell
+# 下载项目release包，无需安装go环境和node环境
+
+
+#给control和src/gopub给可执行权限
+
+#启动服务
+./control start
+
+#停止服务
+./control stop
+
+#重启服务
+./control restart
+```
 
 ## Getting started
 ### 1. 项目配置
