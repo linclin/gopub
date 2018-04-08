@@ -17,22 +17,22 @@ type Project struct {
 	Level          int16     `orm:"column(level)"`
 	Status         int16     `orm:"column(status)"`
 	Version        string    `orm:"column(version);size(32);null"`
-	RepoUrl        string    `orm:"column(repo_url);size(800);null"`
+	RepoUrl        string    `orm:"column(repo_url);type(text);null"`
 	RepoUsername   string    `orm:"column(repo_username);size(50);null"`
 	RepoPassword   string    `orm:"column(repo_password);size(100);null"`
 	RepoMode       string    `orm:"column(repo_mode);size(50);null"`
 	RepoType       string    `orm:"column(repo_type);size(10);null"`
 	DeployFrom     string    `orm:"column(deploy_from);size(200)"`
-	Excludes       string    `orm:"column(excludes);null"`
+	Excludes       string    `orm:"column(excludes);type(text);null"`
 	ReleaseUser    string    `orm:"column(release_user);size(50)"`
 	ReleaseTo      string    `orm:"column(release_to);size(200)"`
-	ReleaseLibrary string    `orm:"column(release_library);size(200)"`
-	Hosts          string    `orm:"column(hosts);null"`
-	PreDeploy      string    `orm:"column(pre_deploy);null"`
-	PostDeploy     string    `orm:"column(post_deploy);null"`
-	PreRelease     string    `orm:"column(pre_release);null"`
-	PostRelease    string    `orm:"column(post_release);null"`
-	LastDeploy     string    `orm:"column(last_deploy);null"`
+	ReleaseLibrary string    `orm:"column(release_library);type(text);size(200)"`
+	Hosts          string    `orm:"column(hosts);type(text);null"`
+	PreDeploy      string    `orm:"column(pre_deploy);type(text);null"`
+	PostDeploy     string    `orm:"column(post_deploy);type(text);null"`
+	PreRelease     string    `orm:"column(pre_release);type(text);null"`
+	PostRelease    string    `orm:"column(post_release);type(text);null"`
+	LastDeploy     string    `orm:"column(last_deploy);type(text);null"`
 	Audit          int16     `orm:"column(audit);null"`
 	KeepVersionNum int       `orm:"column(keep_version_num)"`
 	CreatedAt      time.Time `orm:"column(created_at);type(datetime);null"`
