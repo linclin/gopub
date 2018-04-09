@@ -20,3 +20,5 @@ exports.changepasswd = "/changePasswd"
     //用户注册
 exports.register = "/register"
 
+exports.users = "/api/get/user"
+exports.usersProject = "/api/get/user/project"

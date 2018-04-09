@@ -236,6 +236,18 @@ const routes = [{
             auth: true
         }
     }, {
+    path: '/user/list',
+    name: 'userList',
+    components: {
+      menuView: require('components/leftSlide'),
+      default: require('pages/user/list')
+
+    },
+    meta: {
+      title: "用户列表",
+      auth: true
+    }
+  }, {
         path: '',
         redirect: '/home'
     }, {

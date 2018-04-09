@@ -32,9 +32,9 @@ function build() {
 }
 function pack() {
     build
-    cd  $DIR
-    rm  -rf src/logs && rm  -rf src/cache 
-    tar zcvf $app.tar.gz control src/$app src/conf   src/views src/swagger  src/logs  src/cache 
+    cd  ..
+    rm  -rf $BASENAME/src/logs/*
+    cd  .. && tar zcvf $app.tar.gz $BASENAME/control $BASENAME/src/$app  $BASENAME/src/conf    $BASENAME/src/logs   $BASENAME/src/agent  $BASENAME/src/views $BASENAME/src/static  $BASENAME/src/favicon.ico
 }
 function start() {
     check_pid
