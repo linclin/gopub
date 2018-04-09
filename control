@@ -171,5 +171,3 @@ elif [ "$1" == "sslkey" ];then
 else
     help
 fi
-#bee api  gopub -driver=mysql -conn="mysql:mysql888@tcp(192.168.143.62:3306)/walle"
-

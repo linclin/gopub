@@ -1,0 +1,123 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata: 
+  name: gopub
+  namespace: default
+  labels:
+    name: gopub
+spec:  
+  replicas: 1
+  selector:
+    matchLabels:
+      name: gopub
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate    
+  template: 
+    metadata: 
+      labels: 
+        name: gopub
+    spec:  
+      restartPolicy: Always 
+      hostAliases:
+        - ip: "192.168.162.66"
+          hostnames:
+          - "gitlab.example.org"
+          - "packagist.example.org"
+          - "toran.example.org"    
+        - ip: "192.168.143.41"
+          hostnames:
+          - "jenkins.example.org"  
+        - ip: "127.0.0.1"
+          hostnames:
+          - "mysql"  
+      containers: 
+        - name: gopub 
+          image: "lc13579443/gopub:latest"
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true   
+          ports:
+            - containerPort: 8192
+              name: http-port 
+          env: 
+            - name: MYSQL_HOST
+              value: '127.0.0.1'   
+            - name: MYSQL_PORT
+              value: '3306' 
+            - name: MYSQL_USER
+              value: 'root'   
+            - name: MYSQL_PASS
+              value: '123456'    
+            - name: MYSQL_DB
+              value: 'walle'       
+          resources:
+            limits:
+              cpu: 2
+              memory: 4096Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          volumeMounts:  
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
+          - name: cgroup
+            mountPath: /sys/fs/cgroup
+            readOnly: true 
+        - name: mysql 
+          image: "mysql:5.7"
+          imagePullPolicy: Always
+          env: 
+          - name: MYSQL_ROOT_PASSWORD
+            value: '123456'   
+          ports:
+            - containerPort: 3306
+              name: mysql-port 
+          resources:
+            limits:
+              cpu: 2
+              memory: 4096Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          volumeMounts:  
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
+          - name: cgroup
+            mountPath: /sys/fs/cgroup
+            readOnly: true     
+          - name: mysql-data
+            mountPath: /var/lib/mysql    
+      terminationGracePeriodSeconds: 30 
+      volumes:    
+      - name: localtime
+        hostPath: 
+          path: /etc/localtime
+      - name: cgroup
+        hostPath: 
+          path: /sys/fs/cgroup 
+      - name: mysql-data
+        hostPath: 
+          path: /data/gopub-mysql   
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gopub
+  namespace: default
+  labels:
+    name: gopub
+spec:
+  type: NodePort
+  selector:
+    name: gopub
+  ports:
+    - name: gopub
+      port: 8192 
+      nodePort: 8192
+              

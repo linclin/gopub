@@ -21,6 +21,25 @@ gopub已在我们预发布和生产环境完成37000+次稳定部署,支持单�
 * API支持：提供所有配置和发布操作API,便于对接其他系统  [API使用example](api_example/example.go)
 * 部署钩子：支持部署前准备任务,代码检出后处理任务,同步后更新软链前置任务,发布完毕后收尾任务4种钩子函数脚本执行
 
+## Docker快速启动
+``` shell
+#使用dockerhub镜像启动,连接外部数据库
+sudo docker run --name gopub -e MYSQL_HOST=127.0.0.1 -e MYSQL_PORT=3306  -e MYSQL_USER=root -e MYSQL_PASS=123456 -e MYSQL_DB=walle -p 8192:8192  --restart always  -d   lc13579443/gopub:latest 
+```
+### Docker 镜像制作
+``` shell
+#使用multi-stage(多阶段构建)需要docker 17.05+版本支持
+sudo docker build -t  gopub .
+sudo docker run --name gopub -e MYSQL_HOST=127.0.0.1 -e MYSQL_PORT=3306  -e MYSQL_USER=root -e MYSQL_PASS=123456 -e MYSQL_DB=walle -p 8192:8192  --restart always  -d  gopub:latest 
+
+```
+### Kubernetes快速部署
+``` shell 
+#apiVersion: apps/v1 需要kubernetes 1.9.0+版本支持
+kubectl apply -f  gopub-kubernetes.yml
+
+```
+
 ## 源码编译安装
 ### 编译环境
 - golang >= 1.8+ 
@@ -46,7 +65,7 @@ npm run build
 #执行数据库初始化
 ./control init
 
-#启动服务 启动成功后 可访问 127.0.0.1:8092 用户名:admin 密码:123456
+#启动服务 启动成功后 可访问 127.0.0.1:8192 用户名:admin 密码:123456
 ./control start
 
 #停止服务
@@ -59,7 +78,7 @@ npm run build
 ### 快速使用
 
 ``` shell
-# 下载项目release包，无需安装go环境和node环境
+# 下载项目[二进制包](https://gitee.com/dev-ops/gopub/attach_files/download?i=127597&u=http%3A%2F%2Ffiles.git.oschina.net%2Fgroup1%2FM00%2F03%2F4B%2FPaAvDFrJ7iOAeiJJAJ9Zw8cLgzM9739.gz%3Ftoken%3D4b1fd7be9453d7417b567d4bf98f7657%26ts%3D1523253033%26attname%3Dgopub-1.0.0.tar.gz)，无需安装go环境和node环境
 
 
 #给control和src/gopub给可执行权限
