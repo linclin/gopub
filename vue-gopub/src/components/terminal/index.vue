@@ -88,13 +88,13 @@
                         for(var j=0;j<text.length;j++){
                             try{
                                 this.showText.push({text: "IP:"+text[j].Host, "color": color})
-                                if(text[j].Error) {
+                                if(text[j].ErrorInfo) {
                                     this.showText.push({text: "错误结果:\n" + text[j].Result, "color": color})
                                 }else{
                                     this.showText.push({text: "执行结果:\n" + text[j].Result, "color": color})
                                 }
-                                if(text[j].Error){
-                                    this.showText.push({text: "错误:"+text[j].Error, "color": color})
+                                if(text[j].ErrorInfo){
+                                    this.showText.push({text: "错误:"+text[j].ErrorInfo, "color": color})
                                 }
                                 this.showText.push({text: "=============", "color": color})
                             }catch (e){
@@ -103,8 +103,8 @@
                         //this.showText.push({text: this.formatJson(text), "color": color})
                     }else{
                         this.showText.push({text: "执行结果:\n"+text.Result, "color": color})
-                        if(text.Error){
-                            this.showText.push({text: "错误:"+text.Error, "color": color})
+                        if(text.ErrorInfo){
+                            this.showText.push({text: "错误:"+text.ErrorInfo, "color": color})
                         }
                         this.showText.push({text: "=============", "color": color})
                       //  this.showText.push({text: this.formatJson(text), "color": color})

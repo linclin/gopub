@@ -53,7 +53,6 @@ func (c *BaseComponents) CopyFiles() error {
 	} else {
 		_, err := c.copyFilesBySftp(src, dest, c.GetHosts())
 		if err != nil {
-			beego.Info("11111111111")
 			beego.Info(err)
 			return err
 		}

@@ -37,6 +37,7 @@ type ExecResult struct {
 	StartTime      time.Time
 	EndTime        time.Time
 	Error          error
+	ErrorInfo          string
 }
 
 // execute the command and return a result structure
@@ -53,12 +54,16 @@ func (exec *HostSession) Exec(id int, command string, config ssh.ClientConfig) *
 
 	if err != nil {
 		result.Error = err
+		result.ErrorInfo=err.Error()
+		result.Result = "ssh连接出错，请检查key信任或ip是否正确"
 		return result
 	}
 
 	session, err := client.NewSession()
 
 	if err != nil {
+		result.ErrorInfo=err.Error()
+		result.Result = "ssh连接出错，请检查key信任或ip是否正确"
 		result.Error = err
 		return result
 	}
@@ -73,7 +78,8 @@ func (exec *HostSession) Exec(id int, command string, config ssh.ClientConfig) *
 	start := time.Now()
 	if err := session.Run(command); err != nil {
 		result.Error = err
-		result.Result = b1.String()
+		result.ErrorInfo=err.Error()
+		result.Result = b1.String() +" 错误信息："+err.Error()
 		return result
 	}
 	end := time.Now()
@@ -98,6 +104,8 @@ func (exec *HostSession) Transfer(id int, localFilePath string, remoteFilePath s
 	client, err := ssh.Dial("tcp", exec.Hostname+":"+strconv.Itoa(exec.Port), &config)
 
 	if err != nil {
+		result.ErrorInfo=err.Error()
+		result.Result = "ssh连接出错，请检查key信任或ip是否正确"
 		result.Error = err
 		return result
 	}
@@ -105,6 +113,8 @@ func (exec *HostSession) Transfer(id int, localFilePath string, remoteFilePath s
 	session, err := client.NewSession()
 
 	if err != nil {
+		result.ErrorInfo=err.Error()
+		result.Result = "ssh连接出错，请检查key信任或ip是否正确"
 		result.Error = err
 		return result
 	}
@@ -120,6 +130,8 @@ func (exec *HostSession) Transfer(id int, localFilePath string, remoteFilePath s
 	}
 	srcFile, err := os.Open(localFilePath)
 	if err != nil {
+		result.ErrorInfo=err.Error()
+		result.Result = err.Error()
 		result.Error = err
 		return result
 	}
@@ -130,6 +142,8 @@ func (exec *HostSession) Transfer(id int, localFilePath string, remoteFilePath s
 	// 这里换成实际的 SSH 连接的 用户名，密码，主机名或IP，SSH端口
 	// create sftp client
 	if err != nil {
+		result.ErrorInfo=err.Error()
+		result.Result = err.Error()
 		result.Error = err
 		return result
 	}
@@ -137,6 +151,8 @@ func (exec *HostSession) Transfer(id int, localFilePath string, remoteFilePath s
 
 	dstFile, err := sftpClient.Create(remoteFilePath)
 	if err != nil {
+		result.ErrorInfo=err.Error()
+		result.Result = err.Error()
 		result.Error = err
 		return result
 	}
@@ -145,12 +161,16 @@ func (exec *HostSession) Transfer(id int, localFilePath string, remoteFilePath s
 	//n, err := Copy(dstFile, io.LimitReader(srcFile, fileSize))
 	n, err := io.Copy(dstFile, io.LimitReader(srcFile, fileSize))
 	if err != nil {
+		result.ErrorInfo=err.Error()
+		result.Result = err.Error()
 		result.Error = err
 		return result
 	}
 	if n != fileSize {
 		beego.Info(err)
 		result.Error = errors.New(fmt.Sprintf("copy: expected %v bytes, got %d", fileSize, n))
+		result.ErrorInfo=result.Error.Error()
+		result.Result = result.Error.Error()
 		return result
 	}
 	end := time.Now()

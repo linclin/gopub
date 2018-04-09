@@ -42,15 +42,14 @@ func LocalExec(cmd string) sshexec.ExecResult {
 	execResult.StartTime = time.Now()
 	execResult.Command = cmd
 	execCommand := exec.Command("/bin/bash", "-c", cmd)
-
 	var b bytes.Buffer
-
 	execCommand.Stdout = &b
 	var b1 bytes.Buffer
 	execCommand.Stderr = &b1
 	err := execCommand.Run()
 	if err != nil {
 		execResult.Error = err
+		execResult.ErrorInfo=err.Error()
 		execResult.Result = b1.String()
 		return execResult
 	} else {
