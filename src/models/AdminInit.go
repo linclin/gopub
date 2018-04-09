@@ -46,6 +46,24 @@ func Connect() {
 	dbHost := beego.AppConfig.String("mysqlhost")
 	dbPort := beego.AppConfig.String("mysqlport")
 	dbName := beego.AppConfig.String("mysqldb")
+	if beego.BConfig.RunMode == "docker"{
+		if os.Getenv("MYSQL_USER")!=""{
+			dbUser=os.Getenv("MYSQL_USER")
+		}
+		if os.Getenv("MYSQL_PASS")!=""{
+			dbPass=os.Getenv("MYSQL_PASS")
+		}
+		if os.Getenv("MYSQL_HOST")!=""{
+			dbHost=os.Getenv("MYSQL_HOST")
+		}
+		if os.Getenv("MYSQL_PORT")!=""{
+			dbPort=os.Getenv("MYSQL_PORT")
+		}
+		if os.Getenv("MYSQL_DB")!=""{
+			dbName=os.Getenv("MYSQL_DB")
+		}
+	}
+
 	maxIdleConn, _ := beego.AppConfig.Int("mysql_max_idle_conn")
 	maxOpenConn, _ := beego.AppConfig.Int("mysql_max_open_conn")
 	dbLink := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", dbUser, dbPass, dbHost, dbPort, dbName) + "&loc=Asia%2FShanghai"
@@ -73,7 +91,23 @@ func createdb() error {
 	dbHost := beego.AppConfig.String("mysqlhost")
 	dbPort := beego.AppConfig.String("mysqlport")
 	dbName := beego.AppConfig.String("mysqldb")
-
+	if beego.BConfig.RunMode == "docker"{
+		if os.Getenv("MYSQL_USER")!=""{
+			dbUser=os.Getenv("MYSQL_USER")
+		}
+		if os.Getenv("MYSQL_PASS")!=""{
+			dbPass=os.Getenv("MYSQL_PASS")
+		}
+		if os.Getenv("MYSQL_HOST")!=""{
+			dbHost=os.Getenv("MYSQL_HOST")
+		}
+		if os.Getenv("MYSQL_PORT")!=""{
+			dbPort=os.Getenv("MYSQL_PORT")
+		}
+		if os.Getenv("MYSQL_DB")!=""{
+			dbName=os.Getenv("MYSQL_DB")
+		}
+	}
 	var dsn string
 	var sqlstring string
 
