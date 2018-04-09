@@ -139,11 +139,11 @@ webroot：/data/htdocs/shell_php7 (目标机代码发布目录,软链目录)
 
 
 ## 开发团队
-* [LC](https://github.com/linclin)
-* pandagaoyue
-* Jyang0095
-* AlexKTD_
-* Inner_peace_me
+* [林超](https://github.com/linclin)
+* 高传泽
+* 金阳
+* 赵连启
+* 张群烽
  
 ## 下个版本计划
 * 支持选择蓝鲸CMDB3.0业务模块发布,避免维护IP列表
