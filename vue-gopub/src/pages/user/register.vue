@@ -8,7 +8,7 @@
         <el-form ref="form" :model="form" :rules="rules" label-width="0">
           <el-form-item prop="register_username" class="login-itema">
             <label class="labela">账户名 ：</label>
-            <el-input v-model="form.register_username" placeholder="请输入账户名：" class="form-inputa"
+            <el-input v-bind:readonly="isReadonly" v-model="form.register_username" placeholder="请输入账户名：" class="form-inputa"
                       :autofocus="true"></el-input>
           </el-form-item>
 
@@ -59,10 +59,12 @@
         projects: null,
         options: [],
         pro_id: [],
+        userId:this.$route.query.id|0,
         form: {
           Role: 1,
           pro_ids: ""
         },
+        isReadonly:false,
         rules: {
           register_username: [{required: true, message: '请输入账户名！', trigger: 'blur'}],
           register_realname: [{required: true, message: '请输入花名.实名！', trigger: 'blur'}],
@@ -74,6 +76,9 @@
       }
     },
     created() {
+      if(this.userId>0){
+        this.get_data()
+      }
       this.get_project_data()
     },
     methods: {
@@ -81,8 +86,44 @@
         set_user_info: SET_USER_INFO
       }),
       //提交
+      get_data() {
 
-
+        this.load_data = true
+        this.$http.get(port_user.users,{
+          params: {
+            id: this.userId
+          }
+        })
+          .then(({data: {data}}) => {
+            console.log(data.username)
+            this.form.register_username=data.username
+            this.form.register_realname=data.realname
+            this.form.register_email=data.email
+            this.form.Role=data.role|0
+            this.isReadonly=true
+            this.get_user_pro_data()
+            this.load_data = false
+          }).catch(() => {
+          this.load_data = false
+        })
+      },
+      get_user_pro_data() {
+        this.load_data = true
+        this.$http.get(port_user.usersProject,{
+          params: {
+            user_id: this.userId
+          }
+        })
+          .then(({data: {data}}) => {
+            this.pro_id=[]
+            for (var i in data){
+              this.pro_id.push(data[i].id)
+            }
+            this.load_data = false
+          }).catch(() => {
+          this.load_data = false
+        })
+      },
       get_project_data() {
         this.load_data = true
         this.$http.get(port_conf.list)
@@ -119,7 +160,7 @@
         if (this.form.Role === 20) {
           this.form.pro_ids=this.pro_id.toString()
         }
-        this.$http.post(port_user.register, this.form)
+        this.$http.post(port_user.register+"?id="+this.userId, this.form)
           .then(({data: {msg}}) => {
             this.$message({
               message: msg,

@@ -20,12 +20,6 @@ type BaseController struct {
 
 // Prepare implemented Prepare method for baseRouter.
 func (c *BaseController) Prepare() {
-	c.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")                                                      //允许访问源
-	c.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS")                               //允许post访问
-	c.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Headers", "X-Requested-With,UserToken,Content-Type,Authorization") //header的类型
-	if c.Ctx.Input.IsOptions() {
-		return
-	}
 
 	//获取panic
 	defer func() {
@@ -81,16 +75,4 @@ func (this *BaseController) SetJson(code int, data interface{}, Msg string) {
 	}
 
 }
-func (this *BaseController) AllowCross() {
-	this.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")                                                      //允许访问源
-	this.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS")                               //允许post访问
-	this.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Headers", "X-Requested-With,UserToken,Content-Type,Authorization") //header的类型
-	this.Ctx.ResponseWriter.Header().Set("Access-Control-Max-Age", "1728000")
-	this.Ctx.ResponseWriter.Header().Set("Access-Control-Allow-Credentials", "true")
-	this.Ctx.ResponseWriter.Header().Set("content-type", "application/json") //返回数据格式是json
-}
-func (c *BaseController) Options() {
-	c.AllowCross() //允许跨域
-	c.Data["json"] = map[string]interface{}{"status": 200, "message": "ok", "moreinfo": ""}
-	c.ServeJSON()
-}
+

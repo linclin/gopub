@@ -18,7 +18,7 @@ func (c *SaveController) Post() {
 	var project models.Project
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &project)
 	if err != nil {
-		c.SetJson(1, nil, "数据给事错误")
+		c.SetJson(1, nil, "数据格式错误")
 		return
 	}
 	if project.Id != 0 {

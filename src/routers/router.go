@@ -10,9 +10,22 @@ import (
 	"controllers/task"
 	"controllers/walle"
 	"github.com/astaxie/beego"
+	"controllers/user"
+	"github.com/astaxie/beego/plugins/cors"
+	"time"
 )
 
 func init() {
+
+	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
+		AllowAllOrigins:  true,
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin","UserToken", "Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
+		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
+		MaxAge:           5 * time.Minute,
+	}))
+
 	beego.Router("/login", &controllers.LoginController{})
 	beego.Router("/logout", &controllers.LogoutController{})
 	beego.Router("/loginbydocke", &controllers.LoginByDockerController{})
@@ -54,6 +67,8 @@ func init() {
 
 	beego.Router("/api/get/other/noauto", &othercontrollers.NoAutoController{})
 	beego.Router("/api/get/test/api", &controllers.TestApiController{})
+	beego.Router("/api/get/user/project", &usercontrollers.UserProjectController{})
+	beego.Router("/api/get/user", &usercontrollers.UserController{})
 	beego.Router("/", &controllers.MainController{})
 	ns := beego.NewNamespace("/v1",
 		beego.NSNamespace("/token",

@@ -41,12 +41,6 @@ func (c *RegisterController) Post() {
 	registerEmail := common.GetString(registerData["register_email"])
 
 	registerRole := common.GetInt(registerData["Role"])
-	//格式判断
-	realnmae := strings.Split(registerRealname, ".")
-	if len(realnmae) != 2 {
-		c.SetJson(1, nil, "花名.实名输入有误")
-		return
-	}
 
 	iseamil := IsEmail(registerEmail)
 	if iseamil == false {
@@ -60,8 +54,35 @@ func (c *RegisterController) Post() {
 	err = o.Raw("SELECT * FROM `user` WHERE username= ?", registerUsername).QueryRow(&user)
 	beego.Info(user)
 	if err == nil {
-		c.SetJson(1, nil, "用户已存在，请更换账户名")
-		return
+		userId,_:=c.GetInt("id")
+		if userId==0{
+			c.SetJson(1, nil, "用户已存在，请更换账户名")
+			return
+		}
+		if userId !=user.Id{
+			c.SetJson(1, nil, "用户不存在")
+			return
+		}
+		user.Role = int16(registerRole)
+		user.Email = registerEmail
+		user.Realname = registerRealname
+		if user.Role == 20 {
+			o.Raw("DELETE FROM  `group` WHERE `user_id` =  ? ",user.Id).Exec()
+			pro_ids := common.GetString(registerData["pro_ids"])
+			pro_idArr := strings.Split(pro_ids, ",")
+			for _, pro_id := range pro_idArr {
+				o.Raw("INSERT INTO `group`(`project_id`, `user_id`) VALUES (?, ?)", pro_id, user.Id).Exec()
+			}
+		}
+		err := models.UpdateUserById(&user)
+		if err != nil {
+			c.SetJson(1, nil, "数据库存储错误")
+			return
+		} else {
+			c.SetJson(0, nil, "success")
+			return
+		}
+
 	} else { //不存在，存库
 		var newuser models.User
 		userAuth := common.Md5String(registerUsername + common.GetString(time.Now().Unix()))
@@ -70,7 +91,6 @@ func (c *RegisterController) Post() {
 		if err != nil {
 			panic(err)
 		}
-
 		newuser.Username = registerUsername
 		newuser.PasswordHash = string(hashedPassword)
 		newuser.IsEmailVerified = 1
@@ -91,7 +111,6 @@ func (c *RegisterController) Post() {
 				o.Raw("INSERT INTO `group`(`project_id`, `user_id`) VALUES (?, ?)", pro_id, newid).Exec()
 			}
 		}
-
 		if err != nil {
 			c.SetJson(1, nil, "数据库存储错误")
 			return
