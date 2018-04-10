@@ -2,7 +2,7 @@ gopub（基于vue.js element框架+golang beego框架开发）是一个基于运
 
 我们运维团队前期使用walle web部署系统进行发布操作,在此也感谢walle团队贡献的优秀开源项目.walle的web体验比较好,本次开源的gopub前台完全模仿walle前台,使用vue.js element框架重写.
 
-gopub已在我们预发布和生产环境完成37000+次稳定部署,支持单项目100+台服务器部署110秒左右,支持2G+CDN静态资源发布传输30秒完成.
+gopub已持续运行近两年时间,在我们预发布和生产环境完成37000+次稳定部署,支持单项目100+台服务器部署110秒左右,支持2G+CDN静态资源发布传输30秒完成.
 ![统计](docs/images/index.png)
 ## 使用框架
 * [Element](http://element-cn.eleme.io/#/zh-CN)
@@ -11,7 +11,8 @@ gopub已在我们预发布和生产环境完成37000+次稳定部署,支持单�
 * [Taipei-Torrent](https://github.com/jackpal/Taipei-Torrent) 
 
 ## 功能特性
-* 部署简便：go二进制部署,无需安装运行环境,下个版本将支持Docker部署
+* Docker&k8s支持：Docker镜像仅60M,kubernetes编排文件一键部署运行
+* 部署简便：go二进制部署,无需安装运行环境.
 * gitlab发布支持：配置每个项目git地址,自动获取分支,commit选择并自动拉取代码
 * jenkins发布支持：支持jenkins编译包一键发布
 * ssh执行命令/传输文件：使用golang内置ssh库高效执行命令/传输文件
@@ -21,21 +22,21 @@ gopub已在我们预发布和生产环境完成37000+次稳定部署,支持单�
 * API支持：提供所有配置和发布操作API,便于对接其他系统  [API使用example](api_example/example.go)
 * 部署钩子：支持部署前准备任务,代码检出后处理任务,同步后更新软链前置任务,发布完毕后收尾任务4种钩子函数脚本执行
 
-## Docker快速启动
+## Docker 快速启动
 ``` shell
 #使用dockerhub镜像启动,连接外部数据库
-sudo docker run --name gopub -e MYSQL_HOST=127.0.0.1 -e MYSQL_PORT=3306  -e MYSQL_USER=root -e MYSQL_PASS=123456 -e MYSQL_DB=walle -p 8192:8192  --restart always  -d   lc13579443/gopub:latest 
+sudo docker run --name gopub -e MYSQL_HOST=x.x.x.x -e MYSQL_PORT=3306  -e MYSQL_USER=root -e MYSQL_PASS=123456 -e MYSQL_DB=walle -p 8192:8192  --restart always  -d   lc13579443/gopub:latest 
 ```
 ### Docker 镜像制作
 ``` shell
-#使用multi-stage(多阶段构建)需要docker 17.05+版本支持
+# 使用multi-stage(多阶段构建)需要docker 17.05+版本支持
 sudo docker build -t  gopub .
-sudo docker run --name gopub -e MYSQL_HOST=127.0.0.1 -e MYSQL_PORT=3306  -e MYSQL_USER=root -e MYSQL_PASS=123456 -e MYSQL_DB=walle -p 8192:8192  --restart always  -d  gopub:latest 
+sudo docker run --name gopub -e MYSQL_HOST=x.x.x.x  -e MYSQL_PORT=3306  -e MYSQL_USER=root -e MYSQL_PASS=123456 -e MYSQL_DB=walle -p 8192:8192  --restart always  -d  gopub:latest 
 
 ```
-### Kubernetes快速部署
+### Kubernetes 快速部署
 ``` shell 
-#apiVersion: apps/v1 需要kubernetes 1.9.0+版本支持
+# apiVersion: apps/v1需要kubernetes 1.9.0+版本支持
 kubectl apply -f  gopub-kubernetes.yml
 
 ```
