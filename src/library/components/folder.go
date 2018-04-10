@@ -95,7 +95,12 @@ func (c *BaseComponents) unpackageFiles() error {
 	}
 	cmds := []string{}
 	cmds = append(cmds, fmt.Sprintf("cd %s ", releasePath))
-	cmds = append(cmds, fmt.Sprintf("tar --preserve-permissions --touch --no-same-owner %s %s -C %s", unTarparameter, releasePackage, releasePath))
+	//兼容docker
+	if beego.BConfig.RunMode == "docker" {
+		cmds = append(cmds, fmt.Sprintf("tar %s %s -C %s", unTarparameter, releasePackage, releasePath))
+	}else{
+		cmds = append(cmds, fmt.Sprintf("tar --preserve-permissions --touch --no-same-owner %s %s -C %s", unTarparameter, releasePackage, releasePath))
+	}
 	cmd := strings.Join(cmds, " && ")
 	_, err := c.runRemoteCommand(cmd, []string{})
 	return err
@@ -115,7 +120,12 @@ func (c *BaseComponents) packageFiles() error {
 	beego.Info(strings.TrimRight(c.getDeployWorkspace(version), "/"))
 	cmds = append(cmds, fmt.Sprintf("cd %s", strings.TrimRight(c.getDeployWorkspace(version), "/")))
 	commandFiles := "."
-	cmds = append(cmds, fmt.Sprintf("tar %s --preserve-permissions %s %s %s", c.excludes(version), tarparameter, packagePath, commandFiles))
+	if beego.BConfig.RunMode == "docker" {
+		cmds = append(cmds, fmt.Sprintf("tar %s  %s %s %s", c.excludes(version), tarparameter, packagePath, commandFiles))
+
+	}else{
+		cmds = append(cmds, fmt.Sprintf("tar %s --preserve-permissions %s %s %s", c.excludes(version), tarparameter, packagePath, commandFiles))
+	}
 	cmd := strings.Join(cmds, " && ")
 	_, err := c.runLocalCommand(cmd)
 	return err

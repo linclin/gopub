@@ -2,8 +2,6 @@ package wallecontrollers
 
 import (
 	"controllers"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/httplib"
 	"github.com/astaxie/beego/orm"
 	"library/common"
 	"library/components"
@@ -183,21 +181,11 @@ func (c *ReleaseController) releaseHandling() error {
 	if err != nil {
 		return err
 	}
-	go c.callUwork("1")
+
 	return nil
 
 }
-func (c *ReleaseController) callUwork(isFail string) {
-	if c.Task.UserId == 1 {
-		url := beego.AppConfig.String("uworkHost") + "uwork/admin/walleCallback?task_id=" + common.GetString(c.Task.Id) + "&res=" + isFail
-		if beego.BConfig.RunMode != "prod" {
-			url = `http://192.168.149.61:8092/`
-		}
-		req1 := httplib.Get(url)
-		rspUrl2, _ := req1.String()
-		beego.Info(rspUrl2)
-	}
-}
+
 func (c *ReleaseController) changeReleaseData() error {
 	//对于回滚的任务不记录线上版本
 	if c.Task.Action == 0 {
@@ -270,5 +258,5 @@ func (c *ReleaseController) failHandling(co *components.BaseComponents) {
 	models.UpdateTaskById(c.Task)
 	//清理本地版本库
 	co.CleanUpLocal(c.Task.LinkId)
-	go c.callUwork("0")
+
 }
