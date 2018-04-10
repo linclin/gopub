@@ -4,6 +4,11 @@ gopub（基于vue.js element框架+golang beego框架开发）是一个基于运
 
 gopub已持续运行近两年时间,在我们预发布和生产环境完成37000+次稳定部署,支持单项目100+台服务器部署110秒左右,支持2G+CDN静态资源发布传输30秒完成.
 ![统计](docs/images/index.png)
+
+## 代码地址
+* [开源中国码云 https://gitee.com/dev-ops/gopub](https://gitee.com/dev-ops/gopub)
+* [Github https://github.com/linclin/gopub](https://github.com/linclin/gopub) 
+
 ## 使用框架
 * [Element](http://element-cn.eleme.io/#/zh-CN)
 * [Beego](https://beego.me/)
@@ -77,11 +82,8 @@ npm run build
 ```
 
 ### 快速使用
-
+#### 下载项目[二进制包](https://gitee.com/dev-ops/gopub/attach_files/download?i=127597&u=http%3A%2F%2Ffiles.git.oschina.net%2Fgroup1%2FM00%2F03%2F4B%2FPaAvDFrJ7iOAeiJJAJ9Zw8cLgzM9739.gz%3Ftoken%3D4b1fd7be9453d7417b567d4bf98f7657%26ts%3D1523253033%26attname%3Dgopub-1.0.0.tar.gz)，无需安装go环境和node环境
 ``` shell
-# 下载项目[二进制包](https://gitee.com/dev-ops/gopub/attach_files/download?i=127597&u=http%3A%2F%2Ffiles.git.oschina.net%2Fgroup1%2FM00%2F03%2F4B%2FPaAvDFrJ7iOAeiJJAJ9Zw8cLgzM9739.gz%3Ftoken%3D4b1fd7be9453d7417b567d4bf98f7657%26ts%3D1523253033%26attname%3Dgopub-1.0.0.tar.gz)，无需安装go环境和node环境
-
-
 #给control和src/gopub给可执行权限
 
 #启动服务 启动成功后 可访问 127.0.0.1:8192 用户名:admin 密码:123456
@@ -102,7 +104,6 @@ npm run build
 su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 
 #need remote_user's password
-
 #免密码登录需要远程机器权限满足以下三个条件：
 /home/{remote_user} 755
 ~/.ssh 700
