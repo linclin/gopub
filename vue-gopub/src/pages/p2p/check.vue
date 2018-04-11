@@ -152,7 +152,6 @@
                             }
                         })
                         .then(({data: {msg}}) => {
-                            console.log(msg)
                           this.$message({
                           message: msg,
                           type: 'success'
