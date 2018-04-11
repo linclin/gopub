@@ -43,6 +43,17 @@
                                             </el-tooltip>
                                         </el-form-item>
                                     </el-tab-pane>
+                                  <el-tab-pane label="Jenkins" name="jenkins">
+                                    <el-form-item  label="jenkins地址:" prop="RepoUrl" label-width="100px">
+                                      <el-tooltip class="item" effect="dark"
+                                                  content="job页jenkins地址，类似http://xxxx.juanpi.io/job/xxxxx/"
+                                                  placement="top">
+                                        <el-input v-model="form.RepoUrl"
+                                                  placeholder="job页jenkins地址，类似http://xxxx.juanpi.io/job/xxxxx/"
+                                                  style="width: 600px;"></el-input>
+                                      </el-tooltip>
+                                    </el-form-item>
+                                  </el-tab-pane>
                                 </el-tabs>
                                 <el-form-item v-if="route_id" label="地址:" prop="RepoUrl" label-width="100px">
                                     <el-tooltip class="item" effect="dark"
@@ -227,6 +238,9 @@ README.md" style="width: 400px;"></el-input>
                 }, {
                     value: 'file',
                     label: 'file'
+                }, {
+                  value: 'jenkins',
+                  label: 'jenkins'
                 }],
                 pmsOptions: [],
                 form: {

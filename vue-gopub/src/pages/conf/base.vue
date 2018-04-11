@@ -49,9 +49,6 @@
                         prop="repo_type"
                         label="发布方式"
                         width="100">
-                    <template scope="props">
-                        <span v-text="props.row.repo_type == 'git' ? 'Git' : 'File'"></span>
-                    </template>
                 </el-table-column>
                 <el-table-column
                         prop="keep_version_num"
@@ -81,7 +78,7 @@
                          width="370"
                 >
                 <template scope="props">
-              
+
                 <el-popover ref="popover4" placement="left-start" width="620" trigger="click" >
                  <div style="margin-left:10px;font-size:15px">
               <i class="el-icon-date" style="color:#20A0FF"></i>  <span style="margin-left:8px;color:#20A0FF">项目详情</span>
@@ -97,13 +94,13 @@
                     <label >项目环境 ：</label> <span style="color:teal">{{project_data.level == 3 ? '线上环境' : '预发布环境'}}</span>
                     </el-form-item>
                          <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
-                      <label >项目地址 ：</label> <span style="color:teal"> {{project_data.RepoUrl}} </span>    
+                      <label >项目地址 ：</label> <span style="color:teal"> {{project_data.RepoUrl}} </span>
                       </el-form-item>
                        </el-form>
                     </div>
                   </div>
                 </div>
-              
+
                  <div style="margin-left:10px;font-size:15px">
                 <i class="ace-icon fa fa-desktop" style="color:#F7BA21"></i> <span style="margin-top:-20px;margin-left:8px;color:#F7BA2A">宿主机</span>
                 </div>
@@ -121,7 +118,7 @@
                 </div>
               </div>
              </div>
-              
+
                 <div style="margin-left:10px;font-size:15px">
                 <i class="el-icon-menu" style="color:#13CE66"></i> <span style="margin-top:-20px;margin-left:8px;color:#13CE66">机器列表</span>
                 </div>
@@ -139,11 +136,11 @@
                     </el-form-item>
 
                     <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
-                    <label >发布版本库 ：</label> <span style="color:teal"> {{project_data.ReleaseLibrary}} </span>    
+                    <label >发布版本库 ：</label> <span style="color:teal"> {{project_data.ReleaseLibrary}} </span>
                     </el-form-item>
-                  
+
                     <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
-                    <label >机器列表 ：</label> <span style="color:teal"> {{project_data.Hosts}} </span>    
+                    <label >机器列表 ：</label> <span style="color:teal"> {{project_data.Hosts}} </span>
                     </el-form-item>
                  </el-form>
                 </div>
@@ -166,16 +163,16 @@
                     </el-form-item>
 
                     <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
-                    <label >同步完目标机后任务 ：</label> <span style="color:teal"> {{project_data.PreRelease}} </span>    
+                    <label >同步完目标机后任务 ：</label> <span style="color:teal"> {{project_data.PreRelease}} </span>
                     </el-form-item>
 
                      <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
-                    <label >更改版本软链接后任务  ：</label> <span style="color:teal"> {{project_data.PostRelease}} </span>    
+                    <label >更改版本软链接后任务  ：</label> <span style="color:teal"> {{project_data.PostRelease}} </span>
                     </el-form-item>
 
                      <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
-                    <label >是否开启p2p  ：</label> <span style="color:teal"> {{project_data.P2p== 0 ? 'No' : 'Yes'}} </span>    
-                     <label style="margin-left:120px">是否开启gzip  ：</label> <span style="color:teal"> {{project_data.Gzip == 0 ? 'No' : 'Yes'}} </span>    
+                    <label >是否开启p2p  ：</label> <span style="color:teal"> {{project_data.P2p== 0 ? 'No' : 'Yes'}} </span>
+                     <label style="margin-left:120px">是否开启gzip  ：</label> <span style="color:teal"> {{project_data.Gzip == 0 ? 'No' : 'Yes'}} </span>
                     </el-form-item>
                  </el-form>
                 </div>
@@ -264,7 +261,7 @@
                    .then(({data: {data}}) => {
                          console.log(data)
                   this.project_data=data
-                
+
             })
              .
                 catch(() => {})

@@ -166,6 +166,17 @@ const routes = [{
             auth: true
         }
     }, {
+    path: '/task/jenkins',
+    name: 'taskJenkins',
+    components: {
+      default: require('pages/task/jenkins'),
+      menuView: require('components/leftSlide')
+    },
+    meta: {
+      title: "创建上线单",
+      auth: true
+    }
+  }, {
         path: '/p2p/check',
         name: 'p2pCheck',
         components: {

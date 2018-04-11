@@ -135,7 +135,7 @@ func (c *ReleaseController) releaseHandling() error {
 			c.failHandling(&s)
 			return err
 		}
-	} else if c.Project.RepoType == "file" {
+	} else if c.Project.RepoType == "file" ||  c.Project.RepoType == "jenkins" {
 		f := components.BaseFile{}
 		f.SetBaseComponents(s)
 		err = f.UpdateToVersion()

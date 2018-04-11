@@ -50,6 +50,8 @@ func init() {
 	beego.Router("/api/get/git/gitpull", &wallecontrollers.GitpullController{})
 	beego.Router("/api/get/git/gitlog", &wallecontrollers.GitlogController{})
 
+	beego.Router("/api/get/jenkins/commit", &wallecontrollers.JenkinsController{})
+
 	beego.Router("/api/get/task/list", &taskcontrollers.ListController{})
 	beego.Router("/api/get/task/chart", &taskcontrollers.TaskChartController{})
 	beego.Router("/api/post/task/save", &taskcontrollers.SaveController{})

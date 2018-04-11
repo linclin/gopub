@@ -124,10 +124,12 @@
         } else {
           proId = this.pro_id1
         }
+
         if (proId) {
           for (var i in  this.projects) {
             var project = this.projects[i]
             if (proId == project.id) {
+              console.log(project.repo_type )
               if (project.repo_type == "git") {
                 this.$router.push({
                   name: 'taskGit',
@@ -142,6 +144,13 @@
                 })
                 return
               }
+                if (project.repo_type == "jenkins") {
+                  this.$router.push({
+                    name: 'taskJenkins',
+                    query: {id: proId}
+                  })
+                  return
+                }
             }
           }
 

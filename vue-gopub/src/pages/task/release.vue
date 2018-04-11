@@ -23,6 +23,14 @@
                             {{task.CommitId}}
                         </el-form-item>
          </span>
+          <span v-if='project.RepoType=="jenkins"'>
+                      <el-form-item label="构建名称:">
+                            {{task.Branch}}
+                        </el-form-item>
+                        <el-form-item label="包地址:">
+                            {{task.CommitId}}
+                        </el-form-item>
+         </span>
                         <el-form-item v-if="!is_log">
                             <el-button type="primary" @click="on_submit_form" :loading="on_submit_loading">部署
                             </el-button>
