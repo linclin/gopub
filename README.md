@@ -86,6 +86,9 @@ npm run build
 ``` shell
 #给control和src/gopub给可执行权限
 
+#执行数据库初始化
+./control init
+
 #启动服务 启动成功后 可访问 127.0.0.1:8192 用户名:admin 密码:123456
 ./control start
 
