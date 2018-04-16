@@ -46,10 +46,10 @@
                                   <el-tab-pane label="Jenkins" name="jenkins">
                                     <el-form-item  label="jenkins地址:" prop="RepoUrl" label-width="100px">
                                       <el-tooltip class="item" effect="dark"
-                                                  content="job页jenkins地址，类似http://xxxx.juanpi.io/job/xxxxx/"
+                                                  content="job页jenkins地址，类似http://jenkins.xxxxx.com/job/项目名称/"
                                                   placement="top">
                                         <el-input v-model="form.RepoUrl"
-                                                  placeholder="job页jenkins地址，类似http://xxxx.juanpi.io/job/xxxxx/"
+                                                  placeholder="job页jenkins地址，类似http://jenkins.xxxxx.com/job/项目名称/"
                                                   style="width: 600px;"></el-input>
                                       </el-tooltip>
                                     </el-form-item>

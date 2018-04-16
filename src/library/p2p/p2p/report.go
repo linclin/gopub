@@ -34,12 +34,9 @@ func newReportor(taskID string, cfg *common.Config) *reportor {
 }
 
 func (r *reportor) run() {
-	log.Info("123")
 	for rc := range r.reportChan {
-		log.Info("1234567")
 		r.reportImp(rc)
 	}
-	log.Info("4567")
 }
 
 func (r *reportor) DoReport(serverAddr string, pecent float32) {
@@ -51,7 +48,6 @@ func (r *reportor) Close() {
 }
 
 func (r *reportor) reportImp(ri *reportInfo) {
-	log.Info("12321321")
 	if int(ri.percentComplete) == 100 {
 		log.Infof("[%s] Report session status... completed", r.taskID)
 	}
