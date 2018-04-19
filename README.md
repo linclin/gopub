@@ -9,6 +9,8 @@ gopub已持续运行近两年时间,在我们预发布和生产环境完成37000
 * [开源中国码云 https://gitee.com/dev-ops/gopub](https://gitee.com/dev-ops/gopub)
 * [Github https://github.com/linclin/gopub](https://github.com/linclin/gopub) 
 
+## demo地址(Docker部署,账号admin 密码123456)
+公网测试环境:http://140.143.85.18:8192/
 ## 使用框架
 * [Element](http://element-cn.eleme.io/#/zh-CN)
 * [Beego](https://beego.me/)
