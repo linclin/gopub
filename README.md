@@ -19,10 +19,11 @@ gopub已持续运行近两年时间,在我们预发布和生产环境完成37000
 * Docker&k8s支持：Docker镜像仅60M,kubernetes编排文件一键部署运行
 * 部署简便：go二进制部署,无需安装运行环境.
 * gitlab发布支持：配置每个项目git地址,自动获取分支,commit选择并自动拉取代码
-* jenkins发布支持：支持jenkins编译包一键发布
+* jenkins发布支持：支持jenkins可选build history一键发布
 * ssh执行命令/传输文件：使用golang内置ssh库高效执行命令/传输文件
 * BT支持：大文件和大批量机器文件传输使用BT协议支持
 * 多项目部署:支持多项目多任务并行,内置[grpool协程池](https://github.com/linclin/grpool)支持并发操作命令和传输文件
+* 分批次发布：项目配置支持配置分批发布IP,自动创建多批次上线单
 * 全web化操作：web配置项目,一键发布,一键快速回滚
 * API支持：提供所有配置和发布操作API,便于对接其他系统  [API使用example](api_example/example.go)
 * 部署钩子：支持部署前准备任务,代码检出后处理任务,同步后更新软链前置任务,发布完毕后收尾任务4种钩子函数脚本执行
@@ -169,9 +170,7 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 * 张群烽
  
 ## 下个版本计划
-* 与jenkins接口对接,支持发布包可下拉选择
-* 支持选择蓝鲸CMDB3.0业务模块发布,避免维护IP列表
-* 现有的Docker镜像基于centos打包,镜像超过1.4G,下个版本使用alpine作为基础镜像,减少镜像大小.并支持kubernetes编排
+* 待定
 
 ## 技术支持 
 联系我们，技术交流QQ群：
