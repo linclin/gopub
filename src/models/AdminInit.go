@@ -119,9 +119,7 @@ func createdb() error {
 		//panic(err.Error())
 		return err
 	}
-	sqlstring1 := fmt.Sprintf("drop database if exists `%s` ", dbName)
-	db.Exec(sqlstring1)
-	sqlstring = fmt.Sprintf(" CREATE DATABASE `%s` CHARSET utf8 COLLATE utf8_general_ci", dbName)
+	sqlstring = fmt.Sprintf(" CREATE DATABASE if not exists `%s` CHARSET utf8 COLLATE utf8_general_ci", dbName)
 	r, err := db.Exec(sqlstring)
 	if err != nil {
 		beego.Info(err)
