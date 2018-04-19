@@ -1,6 +1,5 @@
 package sshexec
 
-import ()
 import (
 	"errors"
 	"github.com/ivpusic/grpool"
@@ -9,6 +8,8 @@ import (
 	"log"
 	"os"
 	"time"
+	"strings"
+	"strconv"
 )
 
 //
@@ -75,11 +76,21 @@ func (s *SSHExecAgent) SshHostByKey(hosts []string, user string, cmd string) ([]
 		pool.JobQueue <- grpool.Job{
 			Jobid: count,
 			Jobfunc: func() (interface{}, error) {
+				hostInfo:=strings.Split(hosts[count],":")
+				ip:=hostInfo[0]
+				prot:=22
+				if len(hostInfo)>1{
+					protInt, err := strconv.Atoi(hostInfo[1])
+					if err==nil{
+						prot=protInt
+					}
+
+				}
 				session := &HostSession{
 					Username: user,
 					Password: "",
-					Hostname: hosts[count],
-					Port:     22,
+					Hostname: ip,
+					Port:     prot,
 					Auths:    authKeys,
 				}
 				r := session.Exec(count, cmd, session.GenerateConfig())
@@ -115,7 +126,7 @@ func (s *SSHExecAgent) SshHostByKey(hosts []string, user string, cmd string) ([]
 	}
 
 }
-
+//这里的host要带端口信息
 func (s *SSHExecAgent) SftpHostByKey(hosts []string, user string, localFilePath string, remoteFilePath string) ([]ExecResult, error) {
 	if len(hosts) == 0 {
 		log.Println("no hosts")
@@ -144,11 +155,21 @@ func (s *SSHExecAgent) SftpHostByKey(hosts []string, user string, localFilePath 
 		pool.JobQueue <- grpool.Job{
 			Jobid: count,
 			Jobfunc: func() (interface{}, error) {
+				hostInfo:=strings.Split(hosts[count],":")
+				ip:=hostInfo[0]
+				prot:=22
+				if len(hostInfo)>1{
+					protInt, err := strconv.Atoi(hostInfo[1])
+					if err==nil{
+						prot=protInt
+					}
+
+				}
 				session := &HostSession{
 					Username: user,
 					Password: "",
-					Hostname: hosts[count],
-					Port:     22,
+					Hostname: ip,
+					Port:     prot,
 					Auths:    authKeys,
 				}
 				r := session.Transfer(count, localFilePath, remoteFilePath, session.GenerateConfig())

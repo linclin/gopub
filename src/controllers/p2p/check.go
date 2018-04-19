@@ -36,7 +36,7 @@ func (c *CheckController) Get() {
 			for _, project := range projects {
 				s := components.BaseComponents{}
 				s.SetProject(&project)
-				ips := s.GetHosts()
+				ips := s.GetHostIps()
 				proRes := init_sever.P2pSvc.CheckAllClient(ips)
 				for key, value := range proRes {
 					if value == "dead" {
@@ -69,7 +69,7 @@ func (c *CheckController) Get() {
 			for _, project := range projects {
 				s := components.BaseComponents{}
 				s.SetProject(&project)
-				ips := s.GetHosts()
+				ips := s.GetHostIps()
 				proRes := init_sever.P2pSvc.CheckAllClient(ips)
 				for key, value := range proRes {
 					if !common.InList(key, ss) {

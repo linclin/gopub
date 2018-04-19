@@ -127,7 +127,7 @@ func GetHostNum() int {
 		for _, project := range projects {
 			s := components.BaseComponents{}
 			s.SetProject(&project)
-			ips := s.GetHosts()
+			ips := s.GetHostIps()
 			for _, ip := range ips {
 				if !common.InList(string(ip), finalres) {
 					finalres = append(finalres, string(ip))

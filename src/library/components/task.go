@@ -17,10 +17,12 @@ func (c *BaseComponents) PreDeploy(version string) error {
 	}
 	cmds := []string{}
 	workspace := strings.TrimRight(c.getDeployWorkspace(version), "/")
-	ipsString := strings.Join(c.GetHosts(), ",")
+	ipsString := strings.Join(c.GetHostIps(), ",")
+	ipAndPortString := strings.Join(c.GetAllHost(), ",")
 	replaceMap := map[string]string{}
 	replaceMap["{WORKSPACE}"] = workspace
 	replaceMap["{HOSTS}"] = ipsString
+	replaceMap["{HOSTPORT}"] = ipAndPortString
 	replaceMap["{ENV}"] = common.GetString(c.project.Level)
 	cmds = append(cmds, fmt.Sprintf("cd %s", workspace))
 	for _, task := range tasks {
@@ -50,10 +52,12 @@ func (c *BaseComponents) PostDeploy(version string) error {
 	}
 	cmds := []string{}
 	workspace := strings.TrimRight(c.getDeployWorkspace(version), "/")
-	ipsString := strings.Join(c.GetHosts(), ",")
+	ipsString := strings.Join(c.GetHostIps(), ",")
+	ipAndPortString := strings.Join(c.GetAllHost(), ",")
 	replaceMap := map[string]string{}
 	replaceMap["{WORKSPACE}"] = workspace
 	replaceMap["{HOSTS}"] = ipsString
+	replaceMap["{HOSTPORT}"] = ipAndPortString
 	replaceMap["{ENV}"] = common.GetString(c.project.Level)
 	cmds = append(cmds, fmt.Sprintf("cd %s", workspace))
 	for _, task := range tasks {
@@ -84,11 +88,13 @@ func (c *BaseComponents) getRemotePreReleaseCommand(version string) string {
 	cmds := []string{}
 	workspace := c.getTargetWorkspace()
 	versionDir := c.getReleaseVersionDir(version)
-	ipsString := strings.Join(c.GetHosts(), ",")
+	ipsString := strings.Join(c.GetHostIps(), ",")
+	ipAndPortString := strings.Join(c.GetAllHost(), ",")
 	replaceMap := map[string]string{}
 	replaceMap["{WORKSPACE}"] = workspace
 	replaceMap["{VERSION}"] = versionDir
 	replaceMap["{HOSTS}"] = ipsString
+	replaceMap["{HOSTPORT}"] = ipAndPortString
 	replaceMap["{ENV}"] = common.GetString(c.project.Level)
 	cmds = append(cmds, fmt.Sprintf("cd %s", versionDir))
 	for _, task := range tasks {
@@ -118,11 +124,13 @@ func (c *BaseComponents) getRemotePostReleaseCommand(version string) string {
 	cmds := []string{}
 	workspace := c.getTargetWorkspace()
 	versionDir := c.getReleaseVersionDir(version)
-	ipsString := strings.Join(c.GetHosts(), ",")
+	ipsString := strings.Join(c.GetHostIps(), ",")
+	ipAndPortString := strings.Join(c.GetAllHost(), ",")
 	replaceMap := map[string]string{}
 	replaceMap["{WORKSPACE}"] = workspace
 	replaceMap["{VERSION}"] = versionDir
 	replaceMap["{HOSTS}"] = ipsString
+	replaceMap["{HOSTPORT}"] = ipAndPortString
 	replaceMap["{ENV}"] = common.GetString(c.project.Level)
 	cmds = append(cmds, fmt.Sprintf("cd %s", versionDir))
 	for _, task := range tasks {
@@ -169,7 +177,10 @@ func (c *BaseComponents) LastDeploy(version string) error {
 	replaceMap := map[string]string{}
 	replaceMap["{WORKSPACE}"] = strings.TrimRight(c.getDeployWorkspace(version), "/")
 	replaceMap["{VERSION}"] = c.getReleaseVersionDir(version)
-	replaceMap["{HOSTS}"] = strings.Join(c.GetHosts(), ",")
+	ipsString := strings.Join(c.GetHostIps(), ",")
+	ipAndPortString := strings.Join(c.GetAllHost(), ",")
+	replaceMap["{HOSTS}"] = ipsString
+	replaceMap["{HOSTPORT}"] = ipAndPortString
 	replaceMap["{PROJECT_ID}"] = common.ToString(c.project.Id)
 	replaceMap["{PROJECT_NAME}"] = c.project.Name
 	replaceMap["{ENV}"] = common.GetString(c.project.Level)

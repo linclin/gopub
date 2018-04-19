@@ -57,7 +57,10 @@ func (c *BaseComponents) runLocalCommand(command string) (sshexec.ExecResult, er
  */
 func (c *BaseComponents) runRemoteCommand(command string, hosts []string) ([]sshexec.ExecResult, error) {
 	if len(hosts) == 0 {
-		hosts = c.GetHosts()
+		hostsInfo:=c.GetHosts()
+		for _, info := range hostsInfo {
+			hosts=append(hosts,info.AllHost)
+		}
 	}
 	id := c.SaveRecord(command)
 	start := time.Now()
@@ -85,7 +88,10 @@ func (c *BaseComponents) runRemoteCommand(command string, hosts []string) ([]ssh
  */
 func (c *BaseComponents) copyFilesBySftp(src string, dest string, hosts []string) ([]sshexec.ExecResult, error) {
 	if len(hosts) == 0 {
-		hosts = c.GetHosts()
+		hostsInfo:=c.GetHosts()
+		for _, info := range hostsInfo {
+			hosts=append(hosts,info.AllHost)
+		}
 	}
 	id := c.SaveRecord("Transfer")
 	start := time.Now()
@@ -115,9 +121,12 @@ func (c *BaseComponents) copyFilesByP2p(id string, src string, dest string, host
 	rid := c.SaveRecord("Transfer by p2p")
 	createdAt := int(start.Unix())
 	if len(hosts) == 0 {
-		hosts = c.GetHosts()
+		hostsInfo:=c.GetHosts()
+		for _, info := range hostsInfo {
+			hosts=append(hosts,info.Ip)
+		}
 	}
-	s, err := gopubssh.TransferByP2p(id, c.GetHosts(), c.project.ReleaseUser, src, dest, SSHREMOTETIMEOUT)
+	s, err := gopubssh.TransferByP2p(id, hosts, c.project.ReleaseUser, src, dest, SSHREMOTETIMEOUT)
 	ss, _ := json.Marshal(s)
 	go c.LogTaskCommond(string(ss))
 	//获取执行时间
@@ -132,26 +141,98 @@ func (c *BaseComponents) copyFilesByP2p(id string, src string, dest string, host
 
 }
 
+
+type HostInfo struct {
+	Ip    string
+	Group    int
+	Port  int
+	AllHost string
+}
+
+
 /**
  * 获取host
  */
-func (c *BaseComponents) GetHosts() []string {
+func (c *BaseComponents) GetHosts() []HostInfo {
 	hostsStr := c.project.Hosts
 	if c.task != nil && c.task.Hosts != "" {
 		hostsStr = c.task.Hosts
 	}
+	//获取ip
 	reg := regexp.MustCompile(`(\d+)\.(\d+)\.(\d+)\.(\d+)`)
 	hosts := reg.FindAll([]byte(hostsStr), -1)
-	res := []string{}
+	res := []HostInfo{}
 	for _, host := range hosts {
-		if !common.InList(string(host), res) {
-			res = append(res, string(host))
+		isInList:=false
+		for _, r := range res {
+			if r.Ip==string(host){
+				isInList=true
+			}
 		}
-
+		if !isInList {
+			res = append(res, HostInfo{Ip:string(host),Port:22})
+		}
+	}
+	//格式化端口号
+	reg1 := regexp.MustCompile(`(\d+)\.(\d+)\.(\d+)\.(\d+)\:(\d+)`)
+	hosts1 := reg1.FindAll([]byte(hostsStr), -1)
+	for _, host := range hosts1 {
+		ip:=strings.Split(string(host),":")[0]
+		port:=strings.Split(string(host),":")[1]
+		for i, r := range res {
+			if r.Ip==ip{
+				res[i].Port=common.GetInt(port)
+			}
+		}
+	}
+	//格式化端口号
+	reg2 := regexp.MustCompile(`(\d+)\#(\d+)\.(\d+)\.(\d+)\.(\d+)`)
+	hosts2 := reg2.FindAll([]byte(hostsStr), -1)
+	for _, host := range hosts2 {
+		ip:=strings.Split(string(host),"#")[1]
+		group:=strings.Split(string(host),"#")[0]
+		for i, r := range res {
+			if r.Ip==ip{
+				res[i].Group=common.GetInt(group)
+			}
+		}
+	}
+	for i,  r:= range res {
+		res[i].AllHost=r.Ip+":"+common.GetString(r.Port)
 	}
 	return res
 }
-
+/**
+ * 获取host ip
+ */
+func (c *BaseComponents) GetHostIps() []string {
+	hosts:=[]string{}
+	hostsInfo:=c.GetHosts()
+	for _, info := range hostsInfo {
+		hosts=append(hosts,info.Ip)
+	}
+	return hosts
+}
+/**
+ * 获取host ip加端口
+ */
+func (c *BaseComponents) GetAllHost() []string {
+	hosts:=[]string{}
+	hostsInfo:=c.GetHosts()
+	for _, info := range hostsInfo {
+		hosts=append(hosts,info.AllHost)
+	}
+	return hosts
+}
+func (c *BaseComponents) GetGroupHost() map[int]string {
+	hosts:=map[int]string{}
+	hostsInfo:=c.GetHosts()
+	beego.Info(hostsInfo)
+	for _, info := range hostsInfo {
+		hosts[info.Group]=info.Ip+":"+common.GetString(info.Port)+"\r\n"
+	}
+	return hosts
+}
 /**
  * 获取环境
  */
@@ -265,16 +346,13 @@ func (c *BaseComponents) SaveRecord(command string) int {
 	if err != nil {
 		beego.Error(err)
 	}
-	beego.Info("id:", id)
 	return int(id)
 }
 func (c *BaseComponents) SaveRecordRes(id int, duration int, createdAt int, status int, value interface{}) {
-	beego.Info("test bug")
 	beego.Info(value)
 	if duration < 0 {
 		duration = 0
 	}
-	beego.Info("id1:", id)
 	re, err := models.GetRecordById(id)
 	if err != nil {
 		beego.Error(err)

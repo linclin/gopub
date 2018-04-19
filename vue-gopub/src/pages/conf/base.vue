@@ -29,8 +29,7 @@
                 </el-table-column>
                 <el-table-column
                         prop="name"
-                        label="项目名称"
-                >
+                        label="项目名称">
                 </el-table-column>
                 <el-table-column
                         prop="realname"
@@ -75,8 +74,7 @@
                 </el-table-column>
                 <el-table-column
                         label="操作"
-                         width="370"
-                >
+                         width="370">
                 <template scope="props">
 
                 <el-popover ref="popover4" placement="left-start" width="620" trigger="click" >
@@ -93,7 +91,7 @@
                       <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
                     <label >项目环境 ：</label> <span style="color:teal">{{project_data.level == 3 ? '线上环境' : '预发布环境'}}</span>
                     </el-form-item>
-                         <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
+                     <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
                       <label >项目地址 ：</label> <span style="color:teal"> {{project_data.RepoUrl}} </span>
                       </el-form-item>
                        </el-form>

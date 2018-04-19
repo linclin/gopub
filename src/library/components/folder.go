@@ -46,12 +46,12 @@ func (c *BaseComponents) CopyFiles() error {
 	src := c.getDeployPackagePath(version)
 	dest := c.getReleaseVersionPackage(version)
 	if c.project.P2p == 1 {
-		_, err := c.copyFilesByP2p(version, src, dest, c.GetHosts())
+		_, err := c.copyFilesByP2p(version, src, dest, []string{})
 		if err != nil {
 			return err
 		}
 	} else {
-		_, err := c.copyFilesBySftp(src, dest, c.GetHosts())
+		_, err := c.copyFilesBySftp(src, dest, []string{})
 		if err != nil {
 			beego.Info(err)
 			return err
@@ -180,7 +180,7 @@ func (c *BaseComponents) CleanUpReleasesVersion(versions []string) error {
 		}
 	}
 	cmd := strings.Join(cmds, " && ")
-	_, err := c.runRemoteCommand(cmd, c.GetHosts())
+	_, err := c.runRemoteCommand(cmd, []string{})
 	return err
 }
 
@@ -190,7 +190,7 @@ func (c *BaseComponents) CleanUpReleasesVersion(versions []string) error {
  */
 func (c *BaseComponents) TestSsh() error {
 	cmd := "id"
-	_, err := c.runRemoteCommand(cmd, c.GetHosts())
+	_, err := c.runRemoteCommand(cmd, []string{})
 	return err
 }
 
@@ -204,7 +204,7 @@ func (c *BaseComponents) TestReleaseDir() error {
 	cmds = append(cmds, fmt.Sprintf("mkdir -p %s", c.getReleaseVersionDir(temDir)))
 	cmds = append(cmds, fmt.Sprintf("rm -rf  %s", c.getReleaseVersionDir(temDir)))
 	cmd := strings.Join(cmds, "&&")
-	_, err := c.runRemoteCommand(cmd, c.GetHosts())
+	_, err := c.runRemoteCommand(cmd, []string{})
 	return err
 }
 
@@ -217,27 +217,27 @@ func (c *BaseComponents) SendP2pAgent(dirAgentPath string, destPath string) erro
 	cmds2 := []string{}
 	cmds2 = append(cmds2, fmt.Sprintf("ps -ef |grep %s| grep -v grep  |awk '{print $2}' |xargs kill -9", agentFile))
 	cmd2 := strings.Join(cmds2, " && ")
-	c.runRemoteCommand(cmd2, c.GetHosts())
+	c.runRemoteCommand(cmd2, []string{})
 
 	cmds1 := []string{}
 	cmds1 = append(cmds1, fmt.Sprintf("mkdir -p  %s", strings.TrimRight(destPath, "/")+"/src"))
 	cmds1 = append(cmds1, fmt.Sprintf("rm -rf   %s/src/%s", strings.TrimRight(destPath, "/"), agentFile))
 	cmd1 := strings.Join(cmds1, "&&")
-	_, err := c.runRemoteCommand(cmd1, c.GetHosts())
+	_, err := c.runRemoteCommand(cmd1, []string{})
 	if err != nil {
 		return err
 	}
-	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+agentFile, strings.TrimRight(destPath, "/")+"/src/"+agentFile, c.GetHosts())
+	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+agentFile, strings.TrimRight(destPath, "/")+"/src/"+agentFile, []string{})
 	if err != nil {
 		return err
 	}
 	agentFileConf := "agent.json"
-	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+agentFileConf, strings.TrimRight(destPath, "/")+"/src/"+agentFileConf, c.GetHosts())
+	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+agentFileConf, strings.TrimRight(destPath, "/")+"/src/"+agentFileConf,[]string{})
 	if err != nil {
 		return err
 	}
 	controlFile := "control"
-	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+controlFile, strings.TrimRight(destPath, "/")+"/"+controlFile, c.GetHosts())
+	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+controlFile, strings.TrimRight(destPath, "/")+"/"+controlFile,[]string{})
 	if err != nil {
 		return err
 	}
@@ -246,11 +246,11 @@ func (c *BaseComponents) SendP2pAgent(dirAgentPath string, destPath string) erro
 	cmds = append(cmds, fmt.Sprintf("cd %s/", strings.TrimRight(destPath, "/")))
 	cmds = append(cmds, "./control start")
 	cmd := strings.Join(cmds, "&&")
-	_, err = c.runRemoteCommand(cmd, c.GetHosts())
+	_, err = c.runRemoteCommand(cmd, []string{})
 	if err != nil {
 		return err
 	}
-	init_sever.P2pSvc.CheckAllClientIp(c.GetHosts())
+	init_sever.P2pSvc.CheckAllClientIp([]string{})
 	return nil
 }
 
@@ -268,27 +268,24 @@ func (c *BaseComponents) GetExecFlush() error {
 	cmds1 := []string{}
 	cmds1 = append(cmds1, fmt.Sprintf("sed -i -r 's/ts=[0-9a-f_]*/ts=%s/g' %s", sha, projectFile))
 	cmd1 := strings.Join(cmds1, "&&")
-	_, err = c.runRemoteCommand(cmd1, c.GetHosts())
+	_, err = c.runRemoteCommand(cmd1, []string{})
 	return err
 }
 func (c *BaseComponents) GetGitLog() error {
 	cmds1 := []string{}
 	cmds1 = append(cmds1, fmt.Sprintf("cd %s && git branch  | grep  \"*\" && git log -1", c.project.ReleaseTo))
 	cmd1 := strings.Join(cmds1, "&&")
-	_, err := c.runRemoteCommand(cmd1, c.GetHosts())
+	_, err := c.runRemoteCommand(cmd1, []string{})
 	return err
 }
 func (c *BaseComponents) GetGitPull() error {
 	cmds1 := []string{}
 	cmds1 = append(cmds1, fmt.Sprintf("cd %s && git pull && rm Runtime/* -rf", c.project.ReleaseTo))
 	cmd1 := strings.Join(cmds1, "&&")
-	_, err := c.runRemoteCommand(cmd1, c.GetHosts())
+	_, err := c.runRemoteCommand(cmd1, []string{})
 	return err
 }
 func (c *BaseComponents) StartP2pAgent(ips []string, destPath string) error {
-	if len(ips) == 0 {
-		ips = c.GetHosts()
-	}
 	cmds := []string{}
 	cmds = append(cmds, fmt.Sprintf("cd %s/", strings.TrimRight(destPath, "/")))
 	cmds = append(cmds, "./control start")

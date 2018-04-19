@@ -40,6 +40,7 @@ type Project struct {
 	P2p            int16     `orm:"column(p2p)"`
 	HostGroup      string    `orm:"column(host_group)"`
 	Gzip           int16     `orm:"column(gzip)"`
+	IsGroup        int16     `orm:"column(is_group)"`
 	PmsProName     string    `orm:"column(pms_pro_name);size(200)"`
 }
 

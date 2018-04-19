@@ -6,6 +6,8 @@ import (
 	"github.com/astaxie/beego"
 	"models"
 	"time"
+	"library/components"
+	"library/common"
 )
 
 type SaveController struct {
@@ -27,16 +29,29 @@ func (c *SaveController) Post() {
 	if task.Id != 0 {
 		err = models.UpdateTaskById(&task)
 	} else {
+		task.UserId = uint(c.User.Id)
+		task.CreatedAt = time.Now()
+		task.UpdatedAt = time.Now()
+		task.EnableRollback = 1
 		if task.Hosts == "" {
 			ss, err := models.GetProjectById(task.ProjectId)
 			if err == nil {
 				task.Hosts = ss.Hosts
 			}
+			if ss.IsGroup==1{
+				s := components.BaseComponents{}
+				s.SetProject(ss)
+				mapHost:=s.GetGroupHost()
+				for k, v := range mapHost {
+					task1:=task
+					task1.Hosts=v
+					task1.Title=task1.Title+"第"+common.GetString(k)+"批"
+					models.AddTask(&task1)
+				}
+				c.SetJson(0, task, "修改成功")
+				return
+			}
 		}
-		task.UserId = uint(c.User.Id)
-		task.CreatedAt = time.Now()
-		task.UpdatedAt = time.Now()
-		task.EnableRollback = 1
 		_, err = models.AddTask(&task)
 	}
 	if err != nil {

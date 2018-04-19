@@ -73,7 +73,7 @@ func (c *DetectionController) Get() {
 	//5推送p2p客户端并启动服务
 	if c.Project.P2p == 1 {
 		//这里做alive检测
-		ips := s.GetHosts()
+		ips := s.GetHostIps()
 		start := time.Now()
 		createdAt := int(start.Unix())
 		rid := s.SaveRecord("chick p2p agent")

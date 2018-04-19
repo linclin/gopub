@@ -31,7 +31,7 @@ func Check_p2p_angent_status() error {
 			s := components.BaseComponents{}
 			s.SetProject(&project)
 			s.SetTask(&models.Task{Id: -10})
-			ips := s.GetHosts()
+			ips := s.GetHostIps()
 			ss := init_sever.P2pSvc.CheckAllClient(ips)
 			reIps := []string{}
 			for ip, status := range ss {
