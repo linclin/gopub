@@ -137,6 +137,7 @@ func createdb() error {
 func insertUser() {
 	fmt.Println("insert user ...")
 	u := new(User)
+	u.Id = 1
 	u.Username = "admin"
 	u.IsEmailVerified = 1
 	u.AuthKey = "cJIrTa_b2Hnjn6BZkrL8PJkYto2Ael3O"
