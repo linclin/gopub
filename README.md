@@ -174,7 +174,7 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 ## 下个版本计划
 * 待定
 
-## 技术支持 
+## 技术支持
 联系我们，技术交流QQ群：
 
 ![wechat](docs/images/qq.png)
