@@ -149,7 +149,10 @@
                     this.totalmem=data.totalmen;
                     this.totalproject=data.totalproject;
                     this.totalpub=data.totalpub;
-                    this.totalpubsuccess=(data.totalpubsuccess/data.totalpub).toFixed(2) *100
+                    this.totalpubsuccess = data.totalpubsuccess;
+                    if (data.totalpub) {
+                      this.totalpubsuccess=(this.totalpubsuccess/data.totalpub).toFixed(2)*100;
+                    }
                     this.hostsum=data.hostsum;
             }).catch(() => {
             })
