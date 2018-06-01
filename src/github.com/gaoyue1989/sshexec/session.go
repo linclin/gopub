@@ -68,7 +68,10 @@ func (exec *HostSession) Exec(id int, command string, config ssh.ClientConfig) *
 		return result
 	}
 
-	defer session.Close()
+	defer func() {
+		session.Close()
+		client.Close()
+	}()
 
 	var b bytes.Buffer
 
@@ -119,7 +122,10 @@ func (exec *HostSession) Transfer(id int, localFilePath string, remoteFilePath s
 		return result
 	}
 
-	defer session.Close()
+	defer func() {
+		session.Close()
+		client.Close()
+	}()
 	var fileSize int64
 	if s, err := os.Stat(localFilePath); err != nil {
 		result.Error = err
