@@ -136,9 +136,10 @@ func (c *BaseComponents) packageFiles() error {
  */
 func (c *BaseComponents) excludes(version string) string {
 	excludesArr := []string{}
-	excludes := strings.Split(c.project.Excludes, "/n")
+	excludes := strings.Split(c.project.Excludes, "\n")
 	for _, exclude := range excludes {
 		exclude = strings.Trim(exclude, " ")
+		exclude = strings.Trim(exclude, "\r")
 		if exclude != "" {
 			if !common.InList(exclude, excludesArr) {
 				excludesArr = append(excludesArr, exclude)
