@@ -89,7 +89,7 @@
                     <label >项目名称 ：</label><span style="color:teal">{{project_data.Name}}</span>
                     </el-form-item>
                       <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
-                    <label >项目环境 ：</label> <span style="color:teal">{{project_data.level == 3 ? '线上环境' : '预发布环境'}}</span>
+                    <label >项目环境 ：</label> <span style="color:teal">{{project_data.Level == 3 ? '线上环境' : '预发布环境'}}</span>
                     </el-form-item>
                      <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
                       <label >项目地址 ：</label> <span style="color:teal"> {{project_data.RepoUrl}} </span>
