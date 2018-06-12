@@ -44,6 +44,7 @@ func (c *LoginController) Post() {
 			user.AuthKey = userAuth
 			models.UpdateUserById(&user)
 		}
+		user.PasswordHash=""
 		c.SetJson(0, user, "")
 		return
 	}
