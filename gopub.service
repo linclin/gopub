@@ -1,0 +1,14 @@
+[Unit]
+Description=gopub
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+ExecStart=/www/server/gopub/control start
+ExecReload=/www/server/gopub/control restart
+ExecStop=/www/server/gopub/control stop
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
