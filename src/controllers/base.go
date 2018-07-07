@@ -75,4 +75,3 @@ func (this *BaseController) SetJson(code int, data interface{}, Msg string) {
 	}
 
 }
-

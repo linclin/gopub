@@ -9,7 +9,6 @@ type UserProjectController struct {
 	controllers.BaseController
 }
 
-
 func (c *UserProjectController) Get() {
 	userId := c.GetString("user_id")
 	o := orm.NewOrm()

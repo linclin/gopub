@@ -2,14 +2,15 @@ package sshexec
 
 import (
 	"errors"
-	"github.com/ivpusic/grpool"
-	"golang.org/x/crypto/ssh"
 	"io/ioutil"
 	"log"
 	"os"
-	"time"
-	"strings"
 	"strconv"
+	"strings"
+	"time"
+
+	"github.com/ivpusic/grpool"
+	"golang.org/x/crypto/ssh"
 )
 
 //
@@ -24,11 +25,13 @@ type SSHExecAgent struct {
 func PublicKeyFile(file string) ssh.AuthMethod {
 	buffer, err := ioutil.ReadFile(file)
 	if err != nil {
+		log.Printf("PublicKeyFile err %s \r\n", err.Error())
 		return nil
 	}
 
 	key, err := ssh.ParsePrivateKey(buffer)
 	if err != nil {
+		log.Printf("ParsePrivateKey err %s \r\n", err.Error())
 		return nil
 	}
 	return ssh.PublicKeys(key)
@@ -49,6 +52,8 @@ func GetAuthKeys(keys []string) []ssh.AuthMethod {
 	return methods
 }
 func (s *SSHExecAgent) SshHostByKey(hosts []string, user string, cmd string) ([]ExecResult, error) {
+	log.Printf("SshHostByKey  %s %+v\r\n ", user, hosts)
+
 	if len(hosts) == 0 {
 		log.Println("no hosts")
 		return nil, errors.New("no hosts")
@@ -76,13 +81,13 @@ func (s *SSHExecAgent) SshHostByKey(hosts []string, user string, cmd string) ([]
 		pool.JobQueue <- grpool.Job{
 			Jobid: count,
 			Jobfunc: func() (interface{}, error) {
-				hostInfo:=strings.Split(hosts[count],":")
-				ip:=hostInfo[0]
-				prot:=22
-				if len(hostInfo)>1{
+				hostInfo := strings.Split(hosts[count], ":")
+				ip := hostInfo[0]
+				prot := 22
+				if len(hostInfo) > 1 {
 					protInt, err := strconv.Atoi(hostInfo[1])
-					if err==nil{
-						prot=protInt
+					if err == nil {
+						prot = protInt
 					}
 
 				}
@@ -126,6 +131,7 @@ func (s *SSHExecAgent) SshHostByKey(hosts []string, user string, cmd string) ([]
 	}
 
 }
+
 //这里的host要带端口信息
 func (s *SSHExecAgent) SftpHostByKey(hosts []string, user string, localFilePath string, remoteFilePath string) ([]ExecResult, error) {
 	if len(hosts) == 0 {
@@ -155,13 +161,13 @@ func (s *SSHExecAgent) SftpHostByKey(hosts []string, user string, localFilePath 
 		pool.JobQueue <- grpool.Job{
 			Jobid: count,
 			Jobfunc: func() (interface{}, error) {
-				hostInfo:=strings.Split(hosts[count],":")
-				ip:=hostInfo[0]
-				prot:=22
-				if len(hostInfo)>1{
+				hostInfo := strings.Split(hosts[count], ":")
+				ip := hostInfo[0]
+				prot := 22
+				if len(hostInfo) > 1 {
 					protInt, err := strconv.Atoi(hostInfo[1])
-					if err==nil{
-						prot=protInt
+					if err == nil {
+						prot = protInt
 					}
 
 				}

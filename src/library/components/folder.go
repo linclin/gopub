@@ -98,7 +98,7 @@ func (c *BaseComponents) unpackageFiles() error {
 	//兼容docker
 	if beego.BConfig.RunMode == "docker" {
 		cmds = append(cmds, fmt.Sprintf("tar %s %s -C %s", unTarparameter, releasePackage, releasePath))
-	}else{
+	} else {
 		cmds = append(cmds, fmt.Sprintf("tar --preserve-permissions --touch --no-same-owner %s %s -C %s", unTarparameter, releasePackage, releasePath))
 	}
 	cmd := strings.Join(cmds, " && ")
@@ -123,7 +123,7 @@ func (c *BaseComponents) packageFiles() error {
 	if beego.BConfig.RunMode == "docker" {
 		cmds = append(cmds, fmt.Sprintf("tar %s  %s %s %s", c.excludes(version), tarparameter, packagePath, commandFiles))
 
-	}else{
+	} else {
 		cmds = append(cmds, fmt.Sprintf("tar %s --preserve-permissions %s %s %s", c.excludes(version), tarparameter, packagePath, commandFiles))
 	}
 	cmd := strings.Join(cmds, " && ")
@@ -233,12 +233,12 @@ func (c *BaseComponents) SendP2pAgent(dirAgentPath string, destPath string) erro
 		return err
 	}
 	agentFileConf := "agent.json"
-	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+agentFileConf, strings.TrimRight(destPath, "/")+"/src/"+agentFileConf,[]string{})
+	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+agentFileConf, strings.TrimRight(destPath, "/")+"/src/"+agentFileConf, []string{})
 	if err != nil {
 		return err
 	}
 	controlFile := "control"
-	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+controlFile, strings.TrimRight(destPath, "/")+"/"+controlFile,[]string{})
+	_, err = c.copyFilesBySftp(strings.TrimRight(dirAgentPath, "/")+"/"+controlFile, strings.TrimRight(destPath, "/")+"/"+controlFile, []string{})
 	if err != nil {
 		return err
 	}

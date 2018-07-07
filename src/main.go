@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+	"github.com/astaxie/beego/toolbox"
+	_ "github.com/go-sql-driver/mysql"
 	"library/p2p/init_sever"
 	"models"
 	"os"
 	"os/signal"
 	_ "routers"
 	"syscall"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
-	"github.com/astaxie/beego/toolbox"
-	_ "github.com/go-sql-driver/mysql"
 )
 
 func initArgs() {
@@ -38,21 +38,21 @@ func init() {
 	dbHost := beego.AppConfig.String("mysqlhost")
 	dbPort := beego.AppConfig.String("mysqlport")
 	dbName := beego.AppConfig.String("mysqldb")
-	if beego.BConfig.RunMode == "docker"{
-		if os.Getenv("MYSQL_USER")!=""{
-			dbUser=os.Getenv("MYSQL_USER")
+	if beego.BConfig.RunMode == "docker" {
+		if os.Getenv("MYSQL_USER") != "" {
+			dbUser = os.Getenv("MYSQL_USER")
 		}
-		if os.Getenv("MYSQL_PASS")!=""{
-			dbPass=os.Getenv("MYSQL_PASS")
+		if os.Getenv("MYSQL_PASS") != "" {
+			dbPass = os.Getenv("MYSQL_PASS")
 		}
-		if os.Getenv("MYSQL_HOST")!=""{
-			dbHost=os.Getenv("MYSQL_HOST")
+		if os.Getenv("MYSQL_HOST") != "" {
+			dbHost = os.Getenv("MYSQL_HOST")
 		}
-		if os.Getenv("MYSQL_PORT")!=""{
-			dbPort=os.Getenv("MYSQL_PORT")
+		if os.Getenv("MYSQL_PORT") != "" {
+			dbPort = os.Getenv("MYSQL_PORT")
 		}
-		if os.Getenv("MYSQL_DB")!=""{
-			dbName=os.Getenv("MYSQL_DB")
+		if os.Getenv("MYSQL_DB") != "" {
+			dbName = os.Getenv("MYSQL_DB")
 		}
 	}
 

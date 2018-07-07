@@ -1,11 +1,11 @@
 package components
 
 import (
-	"strings"
-	"github.com/bndr/gojenkins"
 	"github.com/astaxie/beego"
-	"regexp"
+	"github.com/bndr/gojenkins"
 	"net/url"
+	"regexp"
+	"strings"
 )
 
 type BasJenkins struct {
@@ -15,6 +15,7 @@ type BasJenkins struct {
 func (c *BasJenkins) SetBaseComponents(b BaseComponents) {
 	c.baseComponents = b
 }
+
 /**
  * 获取提交历史
  *
@@ -29,14 +30,14 @@ func (c *BasJenkins) GetCommitList(count int) ([]JenkinData, error) {
 	//获取url 和job
 	var list []JenkinData
 	u, err := url.Parse(c.baseComponents.project.RepoUrl)
-	jenkinsUrl:=u.Scheme+"://"+u.Host
-	jobs := strings.Split(u.Path,"/job/")
-	job:=strings.Trim(jobs[1],"/")
+	jenkinsUrl := u.Scheme + "://" + u.Host
+	jobs := strings.Split(u.Path, "/job/")
+	job := strings.Trim(jobs[1], "/")
 	jenkins := gojenkins.CreateJenkins(jenkinsUrl)
-	_, err  = jenkins.Init()
+	_, err = jenkins.Init()
 	if err != nil {
 		beego.Error(err, "Jenkins Initialization failed")
-		return list,err
+		return list, err
 
 	}
 	builds, _ := jenkins.GetAllBuildIds(job)
@@ -65,7 +66,7 @@ func (c *BasJenkins) GetCommitList(count int) ([]JenkinData, error) {
 		url := "null"
 		//var md5 interface{}
 
-		url = jenkinsUrl+ build.Base + "/artifact/" + path
+		url = jenkinsUrl + build.Base + "/artifact/" + path
 		//md5 = build.Raw.MavenArtifacts
 		var build_map JenkinData
 		build_map.Build = the_base_id + "/" + new_path
@@ -73,7 +74,5 @@ func (c *BasJenkins) GetCommitList(count int) ([]JenkinData, error) {
 		//build_map.MD5 = md5
 		list = append(list, build_map)
 	}
-	return  list,nil
+	return list, nil
 }
-
-
