@@ -229,7 +229,7 @@ func (c *BaseComponents) GetGroupHost() map[int]string {
 	hostsInfo:=c.GetHosts()
 	beego.Info(hostsInfo)
 	for _, info := range hostsInfo {
-		hosts[info.Group]=info.Ip+":"+common.GetString(info.Port)+"\r\n"
+		hosts[info.Group]=hosts[info.Group]+info.Ip+":"+common.GetString(info.Port)+"\r\n"
 	}
 	return hosts
 }
