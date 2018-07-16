@@ -7,7 +7,7 @@ export GOPATH=$DIR
 export GOBIN=$DIR/bin/ 
 
 app=$BASENAME
-conf=src/conf/app.conf
+conf=$DIR/src/conf/app.conf
 pidfile=$DIR/$BASENAME.pid
 logfile=$DIR/$BASENAME.log
 
@@ -23,8 +23,8 @@ logfile=$DIR/$BASENAME.log
 }
 
 function build() {
-    gofmt -w src/
-    cd src/ 
+    gofmt -w $DIR/src/
+    cd $DIR/src/ 
     go build -o $BASENAME
     if [ $? -ne 0 ]; then
         exit $?
@@ -48,7 +48,7 @@ function start() {
     if ! [ -f $conf ];then
         echo "Config file $conf doesn't exist, creating one." 
     fi
-    cd src/ 
+    cd $DIR/src/ 
     nohup  ./$BASENAME  >$logfile 2>&1 &
     sleep 1
     running=`ps -p $! | grep -v "PID TTY" | wc -l`
@@ -98,22 +98,22 @@ function status() {
     fi
 }
 function run() {
-   cd src/
+   cd $DIR/src/
    ./$BASENAME -docker
    #go run main.go 
 }
 function rundocker() {
-   cd src/
+   cd $DIR/src/
    ./$BASENAME -docker
    #go run main.go
 }
 function init() {
-   cd src/
+   cd $DIR/src/
    ./$BASENAME -syncdb
    #go run main.go
 }
 function beerun() {
-   cd src/
+   cd $DIR/src/
    bee run 
 }
 
@@ -121,12 +121,12 @@ function tailf() {
    tail -f $logfile
 }
 function docs() {
-   cd src/ 
+   cd $DIR/src/ 
    bee generate docs 
 }
 
 function sslkey() {
-   cd src/conf/ssl
+   cd $DIR/src/conf/ssl
    ###CA:
    #私钥文件
    openssl genrsa -out ca.key 2048

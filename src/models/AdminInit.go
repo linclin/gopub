@@ -16,7 +16,7 @@ func Syncdb() {
 	beego.Info("数据库初始化开始")
 	err := createdb()
 	if err != nil {
-		beego.Error("数据库创建错误:",err)
+		beego.Error("数据库创建错误:", err)
 		return
 	}
 
@@ -31,7 +31,7 @@ func Syncdb() {
 	// 遇到错误立即返回
 	err = orm.RunSyncdb(name, force, verbose)
 	if err != nil {
-		beego.Error("数据表创建错误:",err)
+		beego.Error("数据表创建错误:", err)
 	}
 	beego.Info("数据表创建完成")
 	insertUser()
@@ -46,21 +46,21 @@ func Connect() {
 	dbHost := beego.AppConfig.String("mysqlhost")
 	dbPort := beego.AppConfig.String("mysqlport")
 	dbName := beego.AppConfig.String("mysqldb")
-	if beego.BConfig.RunMode == "docker"{
-		if os.Getenv("MYSQL_USER")!=""{
-			dbUser=os.Getenv("MYSQL_USER")
+	if beego.BConfig.RunMode == "docker" {
+		if os.Getenv("MYSQL_USER") != "" {
+			dbUser = os.Getenv("MYSQL_USER")
 		}
-		if os.Getenv("MYSQL_PASS")!=""{
-			dbPass=os.Getenv("MYSQL_PASS")
+		if os.Getenv("MYSQL_PASS") != "" {
+			dbPass = os.Getenv("MYSQL_PASS")
 		}
-		if os.Getenv("MYSQL_HOST")!=""{
-			dbHost=os.Getenv("MYSQL_HOST")
+		if os.Getenv("MYSQL_HOST") != "" {
+			dbHost = os.Getenv("MYSQL_HOST")
 		}
-		if os.Getenv("MYSQL_PORT")!=""{
-			dbPort=os.Getenv("MYSQL_PORT")
+		if os.Getenv("MYSQL_PORT") != "" {
+			dbPort = os.Getenv("MYSQL_PORT")
 		}
-		if os.Getenv("MYSQL_DB")!=""{
-			dbName=os.Getenv("MYSQL_DB")
+		if os.Getenv("MYSQL_DB") != "" {
+			dbName = os.Getenv("MYSQL_DB")
 		}
 	}
 
@@ -70,14 +70,14 @@ func Connect() {
 	//utils.Display("dbLink", dbLink)
 	err := orm.RegisterDriver("mysql", orm.DRMySQL)
 	if err != nil {
-		beego.Error("数据库连接错误:",err)
+		beego.Error("数据库连接错误:", err)
 		os.Exit(2)
 		return
 	}
 	err = orm.RegisterDataBase("default", "mysql", dbLink, maxIdleConn, maxOpenConn)
 	orm.Debug = true
 	if err != nil {
-		beego.Error("数据库连接错误:",err)
+		beego.Error("数据库连接错误:", err)
 		os.Exit(2)
 		return
 	}
@@ -91,21 +91,21 @@ func createdb() error {
 	dbHost := beego.AppConfig.String("mysqlhost")
 	dbPort := beego.AppConfig.String("mysqlport")
 	dbName := beego.AppConfig.String("mysqldb")
-	if beego.BConfig.RunMode == "docker"{
-		if os.Getenv("MYSQL_USER")!=""{
-			dbUser=os.Getenv("MYSQL_USER")
+	if beego.BConfig.RunMode == "docker" {
+		if os.Getenv("MYSQL_USER") != "" {
+			dbUser = os.Getenv("MYSQL_USER")
 		}
-		if os.Getenv("MYSQL_PASS")!=""{
-			dbPass=os.Getenv("MYSQL_PASS")
+		if os.Getenv("MYSQL_PASS") != "" {
+			dbPass = os.Getenv("MYSQL_PASS")
 		}
-		if os.Getenv("MYSQL_HOST")!=""{
-			dbHost=os.Getenv("MYSQL_HOST")
+		if os.Getenv("MYSQL_HOST") != "" {
+			dbHost = os.Getenv("MYSQL_HOST")
 		}
-		if os.Getenv("MYSQL_PORT")!=""{
-			dbPort=os.Getenv("MYSQL_PORT")
+		if os.Getenv("MYSQL_PORT") != "" {
+			dbPort = os.Getenv("MYSQL_PORT")
 		}
-		if os.Getenv("MYSQL_DB")!=""{
-			dbName=os.Getenv("MYSQL_DB")
+		if os.Getenv("MYSQL_DB") != "" {
+			dbName = os.Getenv("MYSQL_DB")
 		}
 	}
 	var dsn string
@@ -114,7 +114,7 @@ func createdb() error {
 	dsn = fmt.Sprintf("%s:%s@tcp(%s:%s)/?charset=utf8", dbUser, dbPass, dbHost, dbPort)
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
-		beego.Error("数据库连接错误:",err)
+		beego.Error("数据库连接错误:", err)
 		os.Exit(2)
 		//panic(err.Error())
 		return err
@@ -128,7 +128,7 @@ func createdb() error {
 		return err
 	} else {
 		db.Close()
-		beego.Info("数据库"+dbName+"创建成功")
+		beego.Info("数据库" + dbName + "创建成功")
 		return nil
 	}
 

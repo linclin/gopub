@@ -8,9 +8,9 @@ import (
 	"controllers/p2p"
 	"controllers/record"
 	"controllers/task"
+	"controllers/user"
 	"controllers/walle"
 	"github.com/astaxie/beego"
-	"controllers/user"
 	"github.com/astaxie/beego/plugins/cors"
 	"time"
 )
@@ -18,12 +18,12 @@ import (
 func init() {
 
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
-		AllowAllOrigins:  true,
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin","UserToken", "Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
-		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
-		MaxAge:           5 * time.Minute,
+		AllowAllOrigins: true,
+		AllowOrigins:    []string{"*"},
+		AllowMethods:    []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:    []string{"Origin", "UserToken", "Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
+		ExposeHeaders:   []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
+		MaxAge:          5 * time.Minute,
 	}))
 
 	beego.Router("/login", &controllers.LoginController{})

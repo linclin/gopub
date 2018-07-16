@@ -19,7 +19,7 @@ type P2pinfo struct {
 	Host   string
 	Status string
 	Pid    int
-	Pname    string
+	Pname  string
 }
 
 func (c *CheckController) Get() {

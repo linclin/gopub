@@ -100,6 +100,10 @@ npm run build
 
 #重启服务
 ./control restart
+#安装系统服务
+cp ./gopub.service /usr/lib/systemd/system/gopub.service
+systemctl enable gopub.service
+systemctl restart gopub.service
 ```
 ## 配置ssh-key信任
 前提条件:gopub运行用户(如root)ssh-key必须加入目标机器的{remote_user}用户ssh-key信任列表

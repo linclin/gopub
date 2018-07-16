@@ -57,9 +57,9 @@ func (c *BaseComponents) runLocalCommand(command string) (sshexec.ExecResult, er
  */
 func (c *BaseComponents) runRemoteCommand(command string, hosts []string) ([]sshexec.ExecResult, error) {
 	if len(hosts) == 0 {
-		hostsInfo:=c.GetHosts()
+		hostsInfo := c.GetHosts()
 		for _, info := range hostsInfo {
-			hosts=append(hosts,info.AllHost)
+			hosts = append(hosts, info.AllHost)
 		}
 	}
 	id := c.SaveRecord(command)
@@ -88,9 +88,9 @@ func (c *BaseComponents) runRemoteCommand(command string, hosts []string) ([]ssh
  */
 func (c *BaseComponents) copyFilesBySftp(src string, dest string, hosts []string) ([]sshexec.ExecResult, error) {
 	if len(hosts) == 0 {
-		hostsInfo:=c.GetHosts()
+		hostsInfo := c.GetHosts()
 		for _, info := range hostsInfo {
-			hosts=append(hosts,info.AllHost)
+			hosts = append(hosts, info.AllHost)
 		}
 	}
 	id := c.SaveRecord("Transfer")
@@ -121,9 +121,9 @@ func (c *BaseComponents) copyFilesByP2p(id string, src string, dest string, host
 	rid := c.SaveRecord("Transfer by p2p")
 	createdAt := int(start.Unix())
 	if len(hosts) == 0 {
-		hostsInfo:=c.GetHosts()
+		hostsInfo := c.GetHosts()
 		for _, info := range hostsInfo {
-			hosts=append(hosts,info.Ip)
+			hosts = append(hosts, info.Ip)
 		}
 	}
 	s, err := gopubssh.TransferByP2p(id, hosts, c.project.ReleaseUser, src, dest, SSHREMOTETIMEOUT)
@@ -141,14 +141,12 @@ func (c *BaseComponents) copyFilesByP2p(id string, src string, dest string, host
 
 }
 
-
 type HostInfo struct {
-	Ip    string
-	Group    int
-	Port  int
+	Ip      string
+	Group   int
+	Port    int
 	AllHost string
 }
-
 
 /**
  * 获取host
@@ -163,25 +161,25 @@ func (c *BaseComponents) GetHosts() []HostInfo {
 	hosts := reg.FindAll([]byte(hostsStr), -1)
 	res := []HostInfo{}
 	for _, host := range hosts {
-		isInList:=false
+		isInList := false
 		for _, r := range res {
-			if r.Ip==string(host){
-				isInList=true
+			if r.Ip == string(host) {
+				isInList = true
 			}
 		}
 		if !isInList {
-			res = append(res, HostInfo{Ip:string(host),Port:22})
+			res = append(res, HostInfo{Ip: string(host), Port: 22})
 		}
 	}
 	//格式化端口号
 	reg1 := regexp.MustCompile(`(\d+)\.(\d+)\.(\d+)\.(\d+)\:(\d+)`)
 	hosts1 := reg1.FindAll([]byte(hostsStr), -1)
 	for _, host := range hosts1 {
-		ip:=strings.Split(string(host),":")[0]
-		port:=strings.Split(string(host),":")[1]
+		ip := strings.Split(string(host), ":")[0]
+		port := strings.Split(string(host), ":")[1]
 		for i, r := range res {
-			if r.Ip==ip{
-				res[i].Port=common.GetInt(port)
+			if r.Ip == ip {
+				res[i].Port = common.GetInt(port)
 			}
 		}
 	}
@@ -189,50 +187,53 @@ func (c *BaseComponents) GetHosts() []HostInfo {
 	reg2 := regexp.MustCompile(`(\d+)\#(\d+)\.(\d+)\.(\d+)\.(\d+)`)
 	hosts2 := reg2.FindAll([]byte(hostsStr), -1)
 	for _, host := range hosts2 {
-		ip:=strings.Split(string(host),"#")[1]
-		group:=strings.Split(string(host),"#")[0]
+		ip := strings.Split(string(host), "#")[1]
+		group := strings.Split(string(host), "#")[0]
 		for i, r := range res {
-			if r.Ip==ip{
-				res[i].Group=common.GetInt(group)
+			if r.Ip == ip {
+				res[i].Group = common.GetInt(group)
 			}
 		}
 	}
-	for i,  r:= range res {
-		res[i].AllHost=r.Ip+":"+common.GetString(r.Port)
+	for i, r := range res {
+		res[i].AllHost = r.Ip + ":" + common.GetString(r.Port)
 	}
 	return res
 }
+
 /**
  * 获取host ip
  */
 func (c *BaseComponents) GetHostIps() []string {
-	hosts:=[]string{}
-	hostsInfo:=c.GetHosts()
+	hosts := []string{}
+	hostsInfo := c.GetHosts()
 	for _, info := range hostsInfo {
-		hosts=append(hosts,info.Ip)
+		hosts = append(hosts, info.Ip)
 	}
 	return hosts
 }
+
 /**
  * 获取host ip加端口
  */
 func (c *BaseComponents) GetAllHost() []string {
-	hosts:=[]string{}
-	hostsInfo:=c.GetHosts()
+	hosts := []string{}
+	hostsInfo := c.GetHosts()
 	for _, info := range hostsInfo {
-		hosts=append(hosts,info.AllHost)
+		hosts = append(hosts, info.AllHost)
 	}
 	return hosts
 }
 func (c *BaseComponents) GetGroupHost() map[int]string {
-	hosts:=map[int]string{}
-	hostsInfo:=c.GetHosts()
+	hosts := map[int]string{}
+	hostsInfo := c.GetHosts()
 	beego.Info(hostsInfo)
 	for _, info := range hostsInfo {
-		hosts[info.Group]=hosts[info.Group]+info.Ip+":"+common.GetString(info.Port)+"\r\n"
+		hosts[info.Group] = info.Ip + ":" + common.GetString(info.Port) + "\r\n"
 	}
 	return hosts
 }
+
 /**
  * 获取环境
  */
