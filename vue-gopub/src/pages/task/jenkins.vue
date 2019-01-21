@@ -115,7 +115,7 @@
               .then(({data: {data}}) => {
                 this.ProjectData = data
                 this.Hosts=[]
-                var ss=this.ProjectData.Hosts.match(/(\d+)\.(\d+)\.(\d+)\.(\d+)/g)
+                var ss=this.ProjectData.Hosts.match(/(\d+)\.(\d+)\.(\d+)\.(\d+)\:(\d+)/g)
                 for(var i=0;i<ss.length;i++){
                   this.Hosts.push({label:  ss[i], value:  ss[i]})
                 }
