@@ -54,6 +54,12 @@ func init() {
 		if os.Getenv("MYSQL_DB") != "" {
 			dbName = os.Getenv("MYSQL_DB")
 		}
+		if os.Getenv("JenkinsUserName") != "" {
+			beego.AppConfig.Set("JenkinsUserName", os.Getenv("JenkinsUserName"))
+		}
+		if os.Getenv("JenkinsPwd") != "" {
+			beego.AppConfig.Set("JenkinsPwd", os.Getenv("JenkinsPwd"))
+		}
 	}
 
 	maxIdleConn, _ := beego.AppConfig.Int("mysql_max_idle_conn")

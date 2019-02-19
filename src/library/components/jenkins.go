@@ -34,6 +34,9 @@ func (c *BasJenkins) GetCommitList(count int) ([]JenkinData, error) {
 	jobs := strings.Split(u.Path, "/job/")
 	job := strings.Trim(jobs[1], "/")
 	jenkins := gojenkins.CreateJenkins(jenkinsUrl)
+	if beego.AppConfig.String("JenkinsUserName") != "" {
+		jenkins = gojenkins.CreateJenkins(jenkinsUrl, beego.AppConfig.String("JenkinsUserName"), beego.AppConfig.String("JenkinsPwd"))
+	}
 	_, err = jenkins.Init()
 	if err != nil {
 		beego.Error(err, "Jenkins Initialization failed")
