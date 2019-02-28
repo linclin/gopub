@@ -44,8 +44,11 @@
                         width="180">
                 </el-table-column>
                 <el-table-column
-                        prop="branch"
                         label="分支">
+                  <template scope="props">
+                    <el-tag v-if="props.row.branch===''" type="success">Tag发布</el-tag>
+                    <el-tag v-else type="info">{{props.row.branch}}</el-tag>
+                  </template>
                 </el-table-column>
                 <el-table-column
                         prop="commit_id"

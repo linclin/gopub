@@ -20,7 +20,7 @@ gopub已持续运行近两年时间,在我们预发布和生产环境完成37000
 ## 功能特性
 * Docker&k8s支持：Docker镜像仅60M,kubernetes编排文件一键部署运行
 * 部署简便：go二进制部署,无需安装运行环境.
-* gitlab发布支持：配置每个项目git地址,自动获取分支,commit选择并自动拉取代码
+* gitlab发布支持：配置每个项目git地址,自动获取分支/tag,commit选择并自动拉取代码
 * jenkins发布支持：支持jenkins可选build history一键发布
 * ssh执行命令/传输文件：使用golang内置ssh库高效执行命令/传输文件
 * BT支持：大文件和大批量机器文件传输使用BT协议支持

@@ -10,6 +10,29 @@
                         <el-form-item label="上线单标题:" prop="Title">
                             <el-input v-model="form.Title" placeholder="请输入标题" style="width: 500px;"></el-input>
                         </el-form-item>
+                      <el-form-item label="发布方式:" prop="isShowValue">
+                        <el-radio-group v-model="isShowValue" @change="showStatus">
+                          <el-radio :label="1">tag发布</el-radio>
+                          <el-radio :label="2">分支发布</el-radio>
+                        </el-radio-group>
+                      </el-form-item>
+                        <div v-if="isShowStatus">
+                        <el-form-item label="选取tag:" prop="CommitId" label-width="100px">
+                          <el-select v-model="form.CommitId" filterable placeholder="请选择"
+                                     style="width: 400px;">
+                            <el-option
+                              v-for="item in tagData"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            </el-option>
+                          </el-select>
+                          <el-button @click.stop="get_tag_data" size="small">
+                            <i class="fa fa-refresh"></i>
+                          </el-button>
+                        </el-form-item>
+                        </div>
+                        <div v-else>
                         <el-form-item label="选取分支:" prop="Branch" label-width="100px">
                             <el-select v-model="form.Branch" filterable placeholder="请选择" @change="get_commit"
                                        style="width: 400px;">
@@ -34,6 +57,7 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
+                        </div>
                       <el-form-item  label="灰度发布 :" >
                         <el-switch v-model="isShowHost" on-text="on" off-text="off">灰度发布</el-switch>
                         <div>
@@ -69,12 +93,16 @@
             return {
                 commitData: [],
                 branchData: [],
+                tagData: [],
                 isShowHost:false,
+                isShowStatus:false,
                 Hosts:[],
                 selectHosts:[],
                 ProjectData:null,
+                isShowValue: 2,
                 form: {
                     Branch: null,
+                    Tag: null,
                     Title: null,
                     CommitId: null,
                     Hosts:null,
@@ -86,6 +114,7 @@
                 load_data: false,
                 on_submit_loading: false,
                 rules: {
+                    Tag: [{required: true, message: '分支不能为空', trigger: 'blur'}],
                     Branch: [{required: true, message: '分支不能为空', trigger: 'blur'}],
                     CommitId: [{required: true, message: 'Commit不能为空', trigger: 'blur'}],
                     Title: [{required: true, message: '标题不能为空', trigger: 'blur'}]
@@ -95,6 +124,7 @@
         created(){
 
             if (this.route_id) {
+                this.get_tag_data()
                 this.get_branch_data()
                 this.get_Project_data()
             } else {
@@ -184,6 +214,30 @@
                     this.load_data = false
             })
             },
+            get_tag_data(){
+              this.load_data = true
+              this.$http.get(port_git.getTag, {
+                params: {
+                  projectId: this.form.ProjectId
+                }
+              })
+                .then(({data: {data}}) => {
+                  var tagData = []
+                  for(var i in data)
+                  {
+                    if( data[i].id !== "") {
+                      tagData.push({label: data[i].message, value: data[i].id})
+                    }
+                  }
+                  console.log('--->', tagData)
+                  this.tagData = tagData
+                  this.load_data = false
+                })
+                .
+                catch(() => {
+                  this.load_data = false
+                })
+            },
             //提交
             on_submit_form(){
                 this.$refs.form.validate((valid) => {
@@ -215,7 +269,18 @@
                     this.on_submit_loading = false
             })
             })
+            },
+          showStatus(){
+            if (this.isShowValue === 1){
+              this.isShowStatus = true
+              this.form.CommitId = null
+              this.form.Branch = null
+            } else {
+              this.isShowStatus = false
+              this.form.CommitId = null
+              this.form.Branch = null
             }
+          }
         },
         components: {
             panelTitle

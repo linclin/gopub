@@ -11,12 +11,19 @@
                             {{task.Title}}
                         </el-form-item>
           <span v-if='project.RepoType=="git"'>
-                      <el-form-item label="分支:">
+            <div v-if="task.Branch===''">
+                       <el-form-item label="Tag标签:">
+                           {{task.CommitId}}
+                       </el-form-item>
+            </div>
+            <div v-else>
+                     <el-form-item label="分支:">
                           {{task.Branch}}
                       </el-form-item>
                        <el-form-item label="哈希:">
                            {{task.CommitId}}
                        </el-form-item>
+            </div>
           </span>
          <span v-if='project.RepoType=="file"'>
                         <el-form-item label="包地址:">

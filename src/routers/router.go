@@ -49,6 +49,7 @@ func init() {
 	beego.Router("/api/get/git/commit", &wallecontrollers.CommitController{})
 	beego.Router("/api/get/git/gitpull", &wallecontrollers.GitpullController{})
 	beego.Router("/api/get/git/gitlog", &wallecontrollers.GitlogController{})
+	beego.Router("/api/get/git/tag", &wallecontrollers.TagController{})
 
 	beego.Router("/api/get/jenkins/commit", &wallecontrollers.JenkinsController{})
 

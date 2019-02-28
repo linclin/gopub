@@ -1,5 +1,7 @@
 //获取分支
 exports.branch = "/api/get/git/branch"
+//获取tag
+exports.getTag = "/api/get/git/tag"
 //获取提交
 exports.commit = "/api/get/git/commit"
 
