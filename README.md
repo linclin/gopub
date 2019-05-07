@@ -43,7 +43,7 @@ sudo docker run --name gopub --link gopub-mysql:gopub-mysql -e MYSQL_HOST=gopub-
 ### Docker 镜像制作
 ``` shell
 # 使用multi-stage(多阶段构建)需要docker 17.05+版本支持
-sudo docker build -t  gopub .
+sudo docker build --network=host  -t  gopub .
 sudo docker run --name gopub -e MYSQL_HOST=x.x.x.x  -e MYSQL_PORT=3306  -e MYSQL_USER=root -e MYSQL_PASS=123456 -e MYSQL_DB=walle -p 8192:8192  --restart always  -d  gopub:latest 
 
 ```

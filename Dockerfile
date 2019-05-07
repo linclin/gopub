@@ -1,7 +1,7 @@
 #docker 17.05+版本支持
 #sudo docker build -t  gopub .
 #sudo docker run --name gopub -p 8192:8192  --restart always  -d   gopub:latest 
-FROM golang:1.10.1-alpine3.7 as golang
+FROM golang:1.12.4-alpine3.9 as golang
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
     apk update && \
     apk add  bash  && \ 
@@ -11,12 +11,19 @@ ADD control /data/gopub/control
 WORKDIR /data/gopub/
 RUN ./control build
 
-FROM node:9.11.1-alpine as node 
+FROM node:11.14.0-alpine as node 
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+    apk update --no-cache && \
+    apk add  --no-cache --virtual .gyp python make g++ && \ 
+    rm -rf /var/cache/apk/*   /tmp/* 
 ADD ./ /data/gopub/
 WORKDIR /data/gopub/vue-gopub
-RUN npm install && npm run build
+RUN npm install -g node-gyp --registry=https://registry.npm.taobao.org && \
+    npm install node-sass  sass-loader --save-dev --registry=https://registry.npm.taobao.org --disturl=https://npm.taobao.org/dist --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/ && \
+    npm install --registry=https://registry.npm.taobao.org && \
+    npm run build 
 
-FROM alpine:3.7
+FROM alpine:3.9.3
 MAINTAINER Linc "13579443@qq.com"
 ENV TZ='Asia/Shanghai' 
 RUN TERM=linux && export TERM
