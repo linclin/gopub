@@ -92,7 +92,7 @@ npm run build
 ```
 
 ### 快速使用
-#### 下载项目[二进制包](https://gitee.com/dev-ops/gopub/attach_files/download?i=127803&u=http%3A%2F%2Ffiles.git.oschina.net%2Fgroup1%2FM00%2F03%2F4D%2FPaAvDFrLHHaAOuz_AJ9X2n198H45982.gz%3Ftoken%3D1ab1bd5c19af447d6024db8ce7054df1%26ts%3D1523330628%26attname%3Dgopub-1.0.1.tar.gz)，无需安装go环境和node环境
+#### 下载项目[二进制包](https://gitee.com/dev-ops/gopub/releases)，无需安装go环境和node环境
 ``` shell
 #给control和src/gopub给可执行权限
 
