@@ -1,3 +1,5 @@
+## 该项目已停止开发，不再新增功能，十分欢迎开发同学贡献PR。本项目适合有vue+go开发经验的同学作为二次开发框架，不适合小白用户使用，请慎重选择！
+
 gopub（基于vue.js element框架+golang beego框架开发）是一个基于运维场景设计的企业级运维发布系统。配置简单、功能完善、界面流畅、开箱即用！支持git、jenkins版本管理，支持各种web代码发布，一键完成Golang,nodejs,PHP，Python，JAVA等代码的发布、回滚操作。
 
 我们运维团队前期使用walle web部署系统进行发布操作,在此也感谢walle团队贡献的优秀开源项目.walle的web体验比较好,本次开源的gopub前台完全模仿walle前台,使用vue.js element框架重写.
@@ -183,7 +185,4 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 ## 下个版本计划
 * 待定
 
-## 技术支持
-联系我们，技术交流QQ群：
-
-![wechat](docs/images/qq.png)
+ 
