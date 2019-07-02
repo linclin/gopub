@@ -1,3 +1,5 @@
+## 该项目已停止开发，不再新增功能，十分欢迎开发同学贡献PR。本项目适合有vue+go开发经验的同学作为二次开发框架，不适合小白用户使用，请慎重选择！
+
 gopub（基于vue.js element框架+golang beego框架开发）是一个基于运维场景设计的企业级运维发布系统。配置简单、功能完善、界面流畅、开箱即用！支持git、jenkins版本管理，支持各种web代码发布，一键完成Golang,nodejs,PHP，Python，JAVA等代码的发布、回滚操作。
 
 我们运维团队前期使用walle web部署系统进行发布操作,在此也感谢walle团队贡献的优秀开源项目.walle的web体验比较好,本次开源的gopub前台完全模仿walle前台,使用vue.js element框架重写.
@@ -43,7 +45,7 @@ sudo docker run --name gopub --link gopub-mysql:gopub-mysql -e MYSQL_HOST=gopub-
 ### Docker 镜像制作
 ``` shell
 # 使用multi-stage(多阶段构建)需要docker 17.05+版本支持
-sudo docker build -t  gopub .
+sudo docker build --network=host  -t  gopub .
 sudo docker run --name gopub -e MYSQL_HOST=x.x.x.x  -e MYSQL_PORT=3306  -e MYSQL_USER=root -e MYSQL_PASS=123456 -e MYSQL_DB=walle -p 8192:8192  --restart always  -d  gopub:latest 
 
 ```
@@ -90,7 +92,7 @@ npm run build
 ```
 
 ### 快速使用
-#### 下载项目[二进制包](https://gitee.com/dev-ops/gopub/attach_files/download?i=127803&u=http%3A%2F%2Ffiles.git.oschina.net%2Fgroup1%2FM00%2F03%2F4D%2FPaAvDFrLHHaAOuz_AJ9X2n198H45982.gz%3Ftoken%3D1ab1bd5c19af447d6024db8ce7054df1%26ts%3D1523330628%26attname%3Dgopub-1.0.1.tar.gz)，无需安装go环境和node环境
+#### 下载项目[二进制包](https://gitee.com/dev-ops/gopub/releases)，无需安装go环境和node环境
 ``` shell
 #给control和src/gopub给可执行权限
 
@@ -183,7 +185,4 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 ## 下个版本计划
 * 待定
 
-## 技术支持
-联系我们，技术交流QQ群：
-
-![wechat](docs/images/qq.png)
+ 
