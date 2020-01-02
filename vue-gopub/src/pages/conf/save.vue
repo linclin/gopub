@@ -13,6 +13,16 @@
                   <el-input v-model="form.Name" placeholder="请输入项目名称"
                             style="width: 600px;"></el-input>
                 </el-form-item>
+                <el-form-item label="项目标签:" prop="Tag" label-width="100px">
+                  <el-select v-model="form.TagArray" filterable multiple allow-create default-first-option placeholder="请选择" style="width: 400px;">
+                    <el-option
+                      v-for="item in Tags"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
                 <el-form-item label="项目环境:" label-width="100px">
                   <el-radio-group v-model="form.Level">
                     <el-radio :label="2">预发布环境</el-radio>
@@ -78,7 +88,7 @@
 
                   <el-form-item label="代码检出仓库:" prop="DeployFrom">
                     <el-tooltip class="item" effect="dark" content="代码的检出存放路径" placement="top">
-                      <el-input v-model="form.DeployFrom" placeholder="/data/www/deploy"
+                      <el-input v-model="form.DeployFrom" placeholder="/data/gopub"
                                 style="width: 400px;"></el-input>
                     </el-tooltip>
                   </el-form-item>
@@ -111,14 +121,14 @@ README.md" style="width: 400px;"></el-input>
                       <el-tooltip class="item" effect="dark"
                                   content="代码的最终部署路径，请不要在目标机新建此目录，walle会自动生成此软链，正确设置父目级录即可"
                                   placement="top">
-                        <el-input v-model="form.ReleaseTo" placeholder="/data/www/walle"
+                        <el-input v-model="form.ReleaseTo" placeholder="/data/wwwroot/xxx"
                                   style="width: 400px;"></el-input>
                       </el-tooltip>
                     </el-form-item>
                     <el-form-item label="发布版本库:" prop="ReleaseLibrary">
                       <el-tooltip class="item" effect="dark"
                                   content="代码发布的版本库，每次发布更新webroot的软链到当前最新版本" placement="top">
-                        <el-input v-model="form.ReleaseLibrary" placeholder="/data/releases"
+                        <el-input v-model="form.ReleaseLibrary" placeholder="/data/gopub_releases"
                                   style="width: 400px;"></el-input>
                       </el-tooltip>
                     </el-form-item>
@@ -130,6 +140,24 @@ README.md" style="width: 400px;"></el-input>
                                          :controls="false"></el-input-number>
                       </el-tooltip>
                     </el-form-item>
+                    <el-form-item label="服务器组">
+                      <el-select v-model="form.HostGroupArray" filterable multiple default-first-option placeholder="请选择" style="width: 400px;">
+                    <el-option
+                      v-for="item in server_groups"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                    </el-form-item>
+
+
+
+
+
+
+
+
                     <el-form-item label="是否开启分批发布:">
                       <el-radio-group v-model="form.IsGroup">
                         <el-radio :label="0">关闭</el-radio>
@@ -229,6 +257,12 @@ README.md" style="width: 400px;"></el-input>
               </el-col>
             </el-row>
 
+            <el-form-item label="上线方式:">
+              <el-radio-group v-model="form.ReleaseType">
+                <el-radio :label="0">软链接</el-radio>
+                <el-radio :label="1">移动目录</el-radio>
+              </el-radio-group>
+            </el-form-item>
             <el-form-item label="是否开启p2p:">
               <el-radio-group v-model="form.P2p">
                 <el-radio :label="0">关闭</el-radio>
@@ -270,10 +304,12 @@ README.md" style="width: 400px;"></el-input>
           value: 'jenkins',
           label: 'jenkins'
         }],
+        server_groups:[],
         hosts: [],
         pmsOptions: {},
         form: {
           Name: null,
+          TagArray:[],
           Level: 2,
           RepoType: "git",
           RepoUrl: null,
@@ -281,6 +317,7 @@ README.md" style="width: 400px;"></el-input>
           Excludes: null,
           ReleaseUser: null,
           ReleaseTo: null,
+          ReleaseType: 0,
           ReleaseLibrary: null,
           RepoPassword: null,
           RepoUsername: null,
@@ -291,8 +328,11 @@ README.md" style="width: 400px;"></el-input>
           Audit: 0,
           P2p: 0,
           Gzip: 1,
-          IsGroup: 0
+          IsGroup: 0,
+          HostGroup:"",
+          HostGroupArray:[]
         },
+        Tags: [],
         route_id: this.$route.params.id,
         load_data: false,
         on_submit_loading: false,
@@ -308,7 +348,7 @@ README.md" style="width: 400px;"></el-input>
       }
     },
     created() {
-
+      this.get_public_data()
       if (this.route_id) {
         this.get_form_data()
       }
@@ -323,16 +363,58 @@ README.md" style="width: 400px;"></el-input>
       handleClick(tab, event) {
         this.RepoType = tab.name
       },
+      get_public_data(){
+        //当前已有标签列表
+        this.$http.get(port_conf.tags, {
+                params: {
+                }
+            })
+            .then(({data: {data}}) => {
+          for (var i in data){
+            this.Tags.push({
+              'label':data[i],
+              'value':data[i]
+            })
+          }
+        })
+
+        //服务器组
+        this.$http.get(port_conf.server_groups, {
+                params: {
+                }
+            })
+            .then(({data: {data}}) => {
+        
+          for (var i in data){
+            this.server_groups.push({
+              value:i+"",
+              label:data[i]
+            })
+          }
+
+        })
+      },
       //获取数据
       get_form_data() {
         this.load_data = true
+        
+
         this.$http.get(port_conf.get, {
           params: {
             projectId: this.route_id
           }
         })
           .then(({data: {data}}) => {
+            data.TagArray=[]
+            if(data.Tag != ""){
+              data.TagArray=data.Tag.split(" ")
+            }
+            data.HostGroupArray=[]
+            if(data.HostGroup != ""){
+              data.HostGroupArray=data.HostGroup.split(" ")
+            }
             this.form = data
+
               if(this.form.IsGroup){
                 var shosts=this.form.Hosts.split("\n");
                 for (var i in shosts){
@@ -390,7 +472,10 @@ README.md" style="width: 400px;"></el-input>
           }
 
 
-
+          this.form.Tag = this.form.TagArray.join(" ")
+          this.form.HostGroup = this.form.HostGroupArray.join(" ")
+          var tagArray= this.form.TagArray
+          delete this.form.TagArray
           this.on_submit_loading = true
           this.$http.post(port_conf.save, this.form)
             .then(({data: {msg}}) => {
@@ -407,6 +492,7 @@ README.md" style="width: 400px;"></el-input>
             .catch(() => {
               this.on_submit_loading = false
             })
+          this.form.TagArray=tagArray
         })
       }
     },

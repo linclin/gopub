@@ -6,24 +6,20 @@
                 <div> 个人信息设置</div>
             </div>
 
-     <div class="login-forma"  v-if="get_user_info.login">
+     <div class="login-forma"  v-if="userinfo.id">
                     <el-form ref="form" :model="form" :rules="rules" label-width="0">
                     <el-form-item prop="old_password" class="login-itema">
-                    <label >用户名 ：</label><span v-text="get_user_info.user.Username"></span>
+                    <label >用户名 ：</label><span v-text="userinfo.username"></span>
                     </el-form-item>
 
                       <el-form-item prop="old_password" class="login-itema">
-                    <label >邮箱 ：</label> <span v-text="get_user_info.user.Email"></span>
+                    <label >邮箱 ：</label> <span v-text="userinfo.email"></span>
                     </el-form-item>
 
                     <el-form-item prop="old_password" class="login-itema">
-                    <label >花名.实名 ：</label> <span v-text="get_user_info.user.Realname">  </span>    
+                    <label >花名.实名 ：</label> <span v-text="userinfo.realname">  </span>    
                     </el-form-item>
 
-                    <el-form-item prop="old_password" class="login-itema">
-                        <el-input type="password" v-model="form.old_password" placeholder="请输入旧密码："
-                                  class="form-inputa"></el-input>
-                    </el-form-item>
                     <el-form-item prop="newpassword" class="login-itema">
                         <el-input type="password" v-model="form.newpassword" placeholder="请输入新密码："
                                   class="form-inputa"></el-input>
@@ -44,25 +40,18 @@
 
 <script type="text/javascript">
     import {port_user} from 'common/port_uri'
-    import {mapGetters, mapActions} from 'vuex'
-    import {SET_USER_INFO} from 'store/actions/type'
-    import {GET_USER_INFO} from 'store/getters/type'
+    import store from 'store'
 
 
     export default{
-          computed: {
-                ...mapGetters({
-                    get_user_info: GET_USER_INFO
-                })
-    }
-    ,
         data(){
             return {
+                uid: this.$route.query.id,
+                userinfo:{},
                 form: {
-                
+                    uid:this.$route.query.id
                 },
                 rules: {
-                    old_password: [{required: true, message: '请输入旧密码：', trigger: 'blur'}],
                     newpassword: [{required: true, message: '请输入新密码：', trigger: 'blur'}],
                    repeat_newpassword: [{required: true, message: '确认新密码：', trigger: 'blur'}]
                 },
@@ -70,11 +59,29 @@
                 load_data: false
             }
         },
-        
+        created() {
+            var uid = store.state.user_info.user.Id
+            var role = store.state.user_info.user.Role
+            if (this.$route.query.id && (uid == this.$route.query.id || role == 1)) {
+                this.get_user_info()
+            }else{
+                this.$message({
+                    message: "无权访问",
+                    type: 'warning'
+                })
+            }
+        },
         methods: {
-                ...mapActions({
-                    set_user_info: SET_USER_INFO
-                }),
+        get_user_info(){
+            this.$http.get(port_user.users, {
+                  params: {
+                    id:this.uid
+                  }
+              })
+              .then(({data: {data}}) => {
+                    this.userinfo=data
+          })
+        },
         //提交
         submit_form() {
              this.$http.post(port_user.changepasswd,this.form)

@@ -3,11 +3,13 @@ package models
 import (
 	"errors"
 	"fmt"
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+
+	"library/common"
 	"reflect"
 	"strings"
 	"time"
-
-	"github.com/astaxie/beego/orm"
 )
 
 type User struct {
@@ -21,6 +23,7 @@ type User struct {
 	Email                  string    `orm:"column(email);size(255)"`
 	Avatar                 string    `orm:"column(avatar);size(100);null"`
 	Role                   int16     `orm:"column(role)"`
+	FromLdap               int16     `orm:"column(from_ldap)"`
 	Status                 int16     `orm:"column(status)"`
 	CreatedAt              time.Time `orm:"column(created_at);type(datetime)"`
 	UpdatedAt              time.Time `orm:"column(updated_at);type(datetime)"`

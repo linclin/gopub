@@ -30,6 +30,7 @@ type Task struct {
 	IsRun          int       `orm:"column(is_run);null"`
 	FileMd5        string    `orm:"column(file_md5);size(200);null"`
 	Hosts          string    `orm:"column(hosts);null"`
+	HostGroup      string    `orm:"column(host_group);null"`
 }
 
 func (t *Task) TableName() string {

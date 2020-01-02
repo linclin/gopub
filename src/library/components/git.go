@@ -148,3 +148,48 @@ func (c *BaseGit) GetTagList(count int) ([]map[string]string, error) {
 	}
 	return history, nil
 }
+
+func (c *BaseGit) DiffBetweenCommits(branch string, commitIdNew string, commitIdOld string) ([]string, error) {
+	c.UpdateRepo(branch, "")
+	destination := c.baseComponents.GetDeployFromDir()
+	cmds := []string{}
+	cmds = append(cmds, fmt.Sprintf("cd %s ", destination))
+	cmds = append(cmds, `/usr/bin/env git diff --name-only  `+commitIdNew+` `+commitIdOld+` `)
+	cmd := strings.Join(cmds, " && ")
+	s, err := c.baseComponents.runLocalCommand(cmd)
+	var files []string
+	if err != nil {
+		return nil, err
+	} else {
+		items := strings.Split(s.Result, "\n")
+		for _, item := range items {
+			if len(item) > 0 {
+				files = append(files, item)
+			}
+		}
+		return files, nil
+	}
+}
+
+func (c *BaseGit) GetLastModifyInfo(branch string, filepath string) (map[string]string, error) {
+	destination := c.baseComponents.GetDeployFromDir()
+	cmds := []string{}
+	cmds = append(cmds, fmt.Sprintf("cd %s ", destination))
+	cmds = append(cmds, `/usr/bin/env git log -- `+branch+` `+filepath+` | head -3 | tail -2`)
+	cmd := strings.Join(cmds, " && ")
+	s, err := c.baseComponents.runLocalCommand(cmd)
+	if err != nil {
+		return nil, err
+	} else {
+		lines := strings.Split(s.Result, "\n")
+
+		name := common.SubString(lines[0], 8, 100)
+		time := common.SubString(lines[1], 8, 100)
+
+		var fileinfo map[string]string
+		fileinfo = make(map[string]string)
+		fileinfo["name"] = name
+		fileinfo["time"] = time
+		return fileinfo, nil
+	}
+}

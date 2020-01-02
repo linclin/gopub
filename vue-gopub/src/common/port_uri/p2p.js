@@ -10,8 +10,8 @@
  */
 
 //获取用户信息
-exports.check = "/api/get/p2p/check"
+exports.check = process.env.API_URL+"/api/get/p2p/check"
     //用户登录
-exports.send = "/api/get/p2p/send"
+exports.send = process.env.API_URL+"/api/get/p2p/send"
     //用户登出
-exports.agent = "/api/post/p2p/agent"
+exports.agent = process.env.API_URL+"/api/post/p2p/agent"

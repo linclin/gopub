@@ -10,15 +10,15 @@
  */
 
 //获取用户信息
-exports.info = "/api/get/user/info"
+exports.info = process.env.API_URL+"/api/get/user/info"
 //用户登录
-exports.login = "/login"
+exports.login = process.env.API_URL+"/login"
 //用户登出
-exports.logout = "/logout"
+exports.logout = process.env.API_URL+"/logout"
 //修改用户密码
-exports.changepasswd = "/changePasswd"
+exports.changepasswd = process.env.API_URL+"/changePasswd"
     //用户注册
-exports.register = "/register"
+exports.register = process.env.API_URL+"/register"
 
-exports.users = "/api/get/user"
-exports.usersProject = "/api/get/user/project"
+exports.users = process.env.API_URL+"/api/get/user"
+exports.usersProject = process.env.API_URL+"/api/get/user/project"

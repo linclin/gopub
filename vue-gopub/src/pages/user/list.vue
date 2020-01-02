@@ -2,9 +2,12 @@
 
     <div class="panel">
         <panel-title :title="$route.meta.title">
+        
           <router-link style="float: left; margin-right: 10px" :to="{name: 'register'}" tag="span">
             <el-button type="primary" icon="plus" size="small">添加</el-button>
           </router-link>
+          <el-button type="warning" size="small" @click="sync_ldap()">从ldap同步</el-button>
+          <el-button type="warning" size="small" @click="test_ldap()">测试ldap</el-button>
         </panel-title>
 
         <div class="panel-body">
@@ -51,6 +54,13 @@
                   </template>
                 </el-table-column>
                 <el-table-column
+                        prop="ldap"
+                        label=" 用户来源" width="100">
+                  <template scope="props">
+                    <span  >{{ props.row.from_ldap | isLdap }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column
                         label="操作"
                         width="300">
                     <template scope="props">
@@ -58,8 +68,12 @@
                                      tag="span">
                             <el-button size="small" icon="edit">修改</el-button>
                         </router-link>
+                        <router-link :to="{name: 'changepasswd', query:  {id: props.row.id}}"
+                                     tag="span" v-if="props.row.from_ldap==0">
+                            <el-button size="small" icon="edit">设置密码</el-button>
+                        </router-link>
                         <el-button type="danger" size="small" icon="delete"
-                                   @click="delete_data(props.row.id)">删除
+                                   @click="delete_data(props.row.id)" v-if="props.row.from_ldap==0">删除
                         </el-button>
                     </template>
                 </el-table-column>
@@ -83,6 +97,13 @@
           }
           return value
         },
+        isLdap: function(value){
+            if (value==1){
+                return "ldap用户"
+            }else{
+                return "gopub用户"
+            }
+        }
       },
         data(){
             return {
@@ -124,7 +145,7 @@
                 catch(() => {
                     this.load_data = false
             })
-            },
+            }
 
         }
     }

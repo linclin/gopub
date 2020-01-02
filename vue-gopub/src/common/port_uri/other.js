@@ -10,4 +10,4 @@
  */
 
 //统计未进行预发布的项目
-exports.noauto = "/api/get/other/noauto"
+exports.noauto = process.env.API_URL+"/api/get/other/noauto"

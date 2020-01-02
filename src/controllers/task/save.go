@@ -37,6 +37,7 @@ func (c *SaveController) Post() {
 			ss, err := models.GetProjectById(task.ProjectId)
 			if err == nil {
 				task.Hosts = ss.Hosts
+				task.HostGroup = ss.HostGroup
 			}
 			if ss.IsGroup == 1 {
 				s := components.BaseComponents{}
