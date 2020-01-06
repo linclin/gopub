@@ -11,13 +11,7 @@
                     <el-dropdown-item class="dropdown-list">
                         <a href="javascript:" class="dropdown-btn" @click="user_click(1)">
                             <i class="icon fa fa-user"></i>
-                            <span>个人信息</span>
-                        </a>
-                    </el-dropdown-item>
-                    <el-dropdown-item class="dropdown-list">
-                        <a href="javascript:" class="dropdown-btn" @click="user_click(2)">
-                            <i class="icon fa fa-cog"></i>
-                            <span>注册用户</span>
+                            <span>修改密码</span>
                         </a>
                     </el-dropdown-item>
                     <el-dropdown-item class="dropdown-list">
@@ -81,8 +75,8 @@
     ,
         user_info()
         {
-            this.$router.push({path: '/user/changepasswd'})
-            //个人信息
+            this.$router.push({path: '/user/changepasswd?id='+store.state.user_info.user.Id})
+            
         }
     ,
         admin_setting()

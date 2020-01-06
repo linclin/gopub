@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/gaoyue1989/sshexec"
 	"library/common"
+	"library/jumpserver"
 	"library/ssh"
 	"models"
 	"regexp"
@@ -148,10 +149,33 @@ type HostInfo struct {
 	AllHost string
 }
 
+func (c *BaseComponents) GetHosts() []HostInfo {
+	hostgroupStr := c.project.HostGroup
+	aGroupid := strings.Split(hostgroupStr, " ")
+	res := []HostInfo{}
+	port := 22
+	if len(aGroupid) > 0 {
+		for _, gid := range aGroupid {
+			aIp2hostname, _ := jumpserver.GetIpsByGroupid(string(gid))
+			if len(aIp2hostname) > 0 {
+				for ip, _ := range aIp2hostname {
+					res = append(res, HostInfo{
+						Ip:      ip,
+						Port:    port,
+						Group:   1,
+						AllHost: ip + ":" + common.GetString(port)})
+				}
+			}
+		}
+	}
+
+	return res
+}
+
 /**
  * 获取host
  */
-func (c *BaseComponents) GetHosts() []HostInfo {
+func (c *BaseComponents) GetHosts_bak() []HostInfo {
 	hostsStr := c.project.Hosts
 	if c.task != nil && c.task.Hosts != "" {
 		hostsStr = c.task.Hosts

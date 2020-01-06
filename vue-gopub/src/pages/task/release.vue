@@ -58,14 +58,44 @@
                         <el-form-item label="发布版本库:">
                             {{project.ReleaseLibrary}}
                         </el-form-item>
+                        <el-form-item label="发布服务器组:">
+                            <span v-for="n in groups">{{ n }} <br></span>
+                        </el-form-item>
                         <el-form-item label="发布ip:">
-                            <span v-for="n in getHost">{{ n }} <br></span>
+                            <span v-for="n in ips">{{ n }} <br></span>
                         </el-form-item>
 
                     </el-col>
                 </el-row>
             </el-form>
-            <terminal :taskId="task.Id"></terminal>
+            <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+                <el-tab-pane label="版本区别" name="verLog">
+                    <el-table
+                            :data="changes"
+                            v-loading="load_data"
+                            element-loading-text="拼命加载中"
+                            border
+                            style="width: 100%;">
+                        <el-table-column
+                                prop="path"
+                                label="文件">
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="修改人">
+                        </el-table-column>
+                        <el-table-column
+                                prop="time"
+                                label="时间">
+                        </el-table-column>
+                    </el-table>    
+                </el-tab-pane>
+                <el-tab-pane label="上线进度"  name="publishProcess">
+                    <terminal :taskId="task.Id"></terminal>
+                </el-tab-pane>
+            </el-tabs>
+
+            
         </div>
     </div>
 </template>
@@ -79,6 +109,10 @@
             return {
                 task: {},
                 project: {},
+                changes: [],
+                activeName:"verLog",
+                ips:[],
+                groups:[],
                 form: {
                     Branch: null,
                     Title: null,
@@ -98,17 +132,7 @@
             }
         },
         computed: {
-            getHost: function () {
-                var hosts=[]
-                if(this.task.Hosts && this.task.Hosts!=""){
-                    hosts=this.task.Hosts.split("\r\n")
-                }else{
-                  if(this.project.Hosts && this.project.Hosts!=""){
-                    hosts=this.project.Hosts.split("\r\n")
-                  }
-                }
-                return hosts
-            },
+            
             levelEnv: function () {
                 var env = ""
                 if (this.project.Level == 1) {
@@ -127,6 +151,7 @@
 
             if (this.route_id) {
                 this.get_task()
+                this.get_changes()
             } else {
                 this.$message({
                     message: "任务id不存在",
@@ -149,6 +174,19 @@
                         })
                         .then(({data: {data}}) => {
                     this.task = data
+                    //
+                    this.$http.get(port_conf.groupinfo, {
+                                params: {
+                                    hostgroup: data.HostGroup
+                                }
+                            })
+                            .then(({data: {data}}) => {
+                            this.ips=data.ips
+                            this.groups=[]
+                            for (var i in data.id2groupname){
+                                this.groups.push(data.id2groupname[i])
+                            }
+                    })       
                 this.get_project()
             })
             .
@@ -172,6 +210,18 @@
                     this.load_data = false
             })
             },
+            get_changes(){
+                this.load_data = true
+                this.$http.get(port_task.changes, {
+                            params: {
+                                taskId: this.route_id
+                            }
+                        })
+                        .then(({data: {data}}) => {
+                    this.changes = data
+                this.load_data = false
+                })       
+            },
             //提交
             on_submit_form(){
                 this.on_submit_loading = true
@@ -185,6 +235,7 @@
                     message: "部署开始",
                     type: 'success'
                 })
+                this.activeName = "publishProcess"
                 this.on_submit_loading = false
             })
             .

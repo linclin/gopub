@@ -44,6 +44,10 @@ func init() {
 	beego.Router("/api/post/conf/save", &confcontrollers.SaveController{})
 	beego.Router("/api/get/conf/del", &confcontrollers.DelController{})
 	beego.Router("/api/get/conf/copy", &confcontrollers.CopyController{})
+	beego.Router("/api/get/conf/tags", &confcontrollers.TagsController{})
+	beego.Router("/api/get/conf/lock", &confcontrollers.LockController{})
+	beego.Router("/api/get/conf/server_groups", &confcontrollers.ServerGroupsController{})
+	beego.Router("/api/get/conf/groupinfo", &confcontrollers.GroupInfoController{})
 
 	beego.Router("/api/get/git/branch", &wallecontrollers.BranchController{})
 	beego.Router("/api/get/git/commit", &wallecontrollers.CommitController{})
@@ -57,6 +61,7 @@ func init() {
 	beego.Router("/api/get/task/chart", &taskcontrollers.TaskChartController{})
 	beego.Router("/api/post/task/save", &taskcontrollers.SaveController{})
 	beego.Router("/api/get/task/get", &taskcontrollers.TaskController{})
+	beego.Router("/api/get/task/changes", &taskcontrollers.ChangesController{})
 	beego.Router("/api/get/task/last", &taskcontrollers.LastTaskController{})
 	beego.Router("/api/get/task/rollback", &taskcontrollers.RollBackController{})
 	beego.Router("/api/get/task/del", &taskcontrollers.DelController{})

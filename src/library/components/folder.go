@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego"
 	"library/common"
 	"library/p2p/init_sever"
+	"models"
 	"strings"
 	"time"
 )
@@ -71,13 +72,22 @@ func (c *BaseComponents) CopyFiles() error {
 func (c *BaseComponents) GetLinkCommand(version string) string {
 	user := c.project.ReleaseUser
 	project := c.GetGitProjectName(c.project.RepoUrl)
-	currentTmp := fmt.Sprintf("%s/%s/current-%s.tmp", strings.TrimRight(c.project.ReleaseLibrary, "/"), project, project)
 	linkFrom := c.getReleaseVersionDir(version)
+	currentTmp := fmt.Sprintf("%s/%s/current-%s.tmp", strings.TrimRight(c.project.ReleaseLibrary, "/"), project, project)
+
 	cmds := []string{}
 	cmds = append(cmds, fmt.Sprintf("cd %s ", linkFrom))
-	cmds = append(cmds, fmt.Sprintf("ln -sfn %s %s ", linkFrom, currentTmp))
-	cmds = append(cmds, fmt.Sprintf("chown -h %s %s ", user, currentTmp))
-	cmds = append(cmds, fmt.Sprintf("mv -fT %s %s ", currentTmp, c.project.ReleaseTo))
+
+	if c.project.ReleaseType == models.RELEASE_TYPE_SOFTLINK {
+		cmds = append(cmds, fmt.Sprintf("ln -sfn %s %s ", linkFrom, currentTmp))
+		cmds = append(cmds, fmt.Sprintf("chown -h %s %s ", user, currentTmp))
+		cmds = append(cmds, fmt.Sprintf("mv -fT %s %s ", currentTmp, c.project.ReleaseTo))
+	} else {
+		cmds = append(cmds, fmt.Sprintf("cp -r %s %s ", linkFrom, currentTmp))
+		cmds = append(cmds, fmt.Sprintf("chown -h %s %s ", user, currentTmp))
+		trashSuffix := "_trash_" + time.Now().Format("20060102_150402")
+		cmds = append(cmds, fmt.Sprintf("mv %s %s;mv -fT %s %s ", c.project.ReleaseTo, c.project.ReleaseTo+trashSuffix, currentTmp, c.project.ReleaseTo))
+	}
 	cmd := strings.Join(cmds, " && ")
 	return cmd
 }

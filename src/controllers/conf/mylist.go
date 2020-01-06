@@ -30,7 +30,7 @@ func (c *MyListController) Get() {
 		where = where + "and  id in (SELECT project_id FROM `group` WHERE `group`.user_id=" + common.GetString(c.User.Id) + " )  "
 
 	}
-	o.Raw("SELECT *, (SELECT realname FROM `user` WHERE `user`.id=project.user_id LIMIT 1) as realname FROM `project`  WHERE 1=1 "+where+" ORDER BY id LIMIT ?,?", start, length).Values(&projects)
+	o.Raw("SELECT *, (SELECT realname FROM `user` WHERE `user`.id=project.user_id LIMIT 1) as realname,(SELECT realname FROM `user` WHERE `user`.id=project.user_lock LIMIT 1) as lockuser FROM `project`  WHERE 1=1 "+where+" ORDER BY id LIMIT ?,?", start, length).Values(&projects)
 	var count []orm.Params
 	total := 0
 	o.Raw("SELECT count(id) FROM `project` WHERE 1=1 " + where).Values(&count)

@@ -74,13 +74,19 @@ func (c *RegisterController) Post() {
 				o.Raw("INSERT INTO `group`(`project_id`, `user_id`) VALUES (?, ?)", pro_id, user.Id).Exec()
 			}
 		}
-		err := models.UpdateUserById(&user)
-		if err != nil {
-			c.SetJson(1, nil, "数据库存储错误")
-			return
+		if user.FromLdap == 0 {
+			err := models.UpdateUserById(&user)
+
+			if err != nil {
+				c.SetJson(1, nil, "数据库存储错误")
+				return
+			} else {
+				c.SetJson(0, nil, "success")
+				return
+			}
 		} else {
 			c.SetJson(0, nil, "success")
-			return
+
 		}
 
 	} else { //不存在，存库

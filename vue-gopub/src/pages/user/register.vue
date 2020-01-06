@@ -2,7 +2,7 @@
   <div class="login-bodya">
     <div class="loginWarpa">
       <div class="login-titlea">
-        <div> 用户注册</div>
+        <div> {{title}}</div>
       </div>
       <div class="login-forma">
         <el-form ref="form" :model="form" :rules="rules" label-width="0">
@@ -14,13 +14,13 @@
 
           <el-form-item prop="register_realname" class="login-itema">
             <label class="labela">花名.实名 ：</label>
-            <el-input v-model="form.register_realname" placeholder="输入规范如：春哥.李宇春" class="form-inputa"
+            <el-input v-bind:readonly="isLocked" v-model="form.register_realname" placeholder="输入规范如：春哥.李宇春" class="form-inputa"
                       :autofocus="true"></el-input>
           </el-form-item>
 
           <el-form-item prop="register_email" class="login-itema">
             <label class="labela">邮箱 ：</label>
-            <el-input v-model="form.register_email" placeholder="请输入联系邮箱：" class="form-inputa"
+            <el-input v-bind:readonly="isLocked" v-model="form.register_email" placeholder="请输入联系邮箱：" class="form-inputa"
                       :autofocus="true"></el-input>
           </el-form-item>
           <el-form-item label="用户类型:" label-width="100px">
@@ -41,7 +41,7 @@
             </el-select>
           </el-form-item>
           <el-form-item class="login-item">
-            <el-button size="large" class="form-submita" @click="submit_forma">确认注册</el-button>
+            <el-button size="large" class="form-submita" @click="submit_forma">{{submit_btn}}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -56,6 +56,8 @@
   export default {
     data() {
       return {
+        title: "",
+        submit_btn: "",
         projects: null,
         options: [],
         pro_id: [],
@@ -65,6 +67,7 @@
           pro_ids: ""
         },
         isReadonly:false,
+        isLocked:false,
         rules: {
           register_username: [{required: true, message: '请输入账户名！', trigger: 'blur'}],
           register_realname: [{required: true, message: '请输入花名.实名！', trigger: 'blur'}],
@@ -76,8 +79,12 @@
       }
     },
     created() {
+      this.title="用户注册"
+      this.submit_btn="确认注册"
       if(this.userId>0){
         this.get_data()
+        this.title="用户信息修改"
+        this.submit_btn="确认修改"
       }
       this.get_project_data()
     },
@@ -99,8 +106,12 @@
             this.form.register_username=data.username
             this.form.register_realname=data.realname
             this.form.register_email=data.email
+            this.form.from_ldap=data.from_ldap
             this.form.Role=data.role|0
             this.isReadonly=true
+            if(data.from_ldap==1){
+              this.isLocked=true
+            }
             this.get_user_pro_data()
             this.load_data = false
           }).catch(() => {

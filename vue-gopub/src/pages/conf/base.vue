@@ -169,8 +169,9 @@
                     </el-form-item>
 
                      <el-form-item prop="old_password" class="login-itema" style="margin-top:-20px;margin-left:-25px">
-                    <label >是否开启p2p  ：</label> <span style="color:teal"> {{project_data.P2p== 0 ? 'No' : 'Yes'}} </span>
-                     <label style="margin-left:120px">是否开启gzip  ：</label> <span style="color:teal"> {{project_data.Gzip == 0 ? 'No' : 'Yes'}} </span>
+                     <el-form-item><label >部属方式  ：</label> <span style="color:teal"> {{project_data.ReleaseType== 0 ? '软链接' : '移动目录'}} </span></el-form-item>
+                     <el-form-item><label >是否开启p2p  ：</label> <span style="color:teal"> {{project_data.P2p== 0 ? 'No' : 'Yes'}} </span></el-form-item>
+                     <el-form-item><label>是否开启gzip  ：</label> <span style="color:teal"> {{project_data.Gzip == 0 ? 'No' : 'Yes'}} </span></el-form-item>
                     </el-form-item>
                  </el-form>
                 </div>

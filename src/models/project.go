@@ -10,38 +10,46 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
+const RELEASE_TYPE_SOFTLINK = 0
+const RELEASE_TYPE_MOVEDIR = 1
+
 type Project struct {
-	Id             int       `orm:"column(id);auto"`
-	UserId         uint      `orm:"column(user_id)"`
-	Name           string    `orm:"column(name);size(100);null"`
-	Level          int16     `orm:"column(level)"`
-	Status         int16     `orm:"column(status)"`
-	Version        string    `orm:"column(version);size(32);null"`
-	RepoUrl        string    `orm:"column(repo_url);type(text);null"`
-	RepoUsername   string    `orm:"column(repo_username);size(50);null"`
-	RepoPassword   string    `orm:"column(repo_password);size(100);null"`
-	RepoMode       string    `orm:"column(repo_mode);size(50);null"`
-	RepoType       string    `orm:"column(repo_type);size(10);null"`
-	DeployFrom     string    `orm:"column(deploy_from);size(200)"`
-	Excludes       string    `orm:"column(excludes);type(text);null"`
-	ReleaseUser    string    `orm:"column(release_user);size(50)"`
-	ReleaseTo      string    `orm:"column(release_to);size(200)"`
-	ReleaseLibrary string    `orm:"column(release_library);type(text);size(200)"`
-	Hosts          string    `orm:"column(hosts);type(text);null"`
-	PreDeploy      string    `orm:"column(pre_deploy);type(text);null"`
-	PostDeploy     string    `orm:"column(post_deploy);type(text);null"`
-	PreRelease     string    `orm:"column(pre_release);type(text);null"`
-	PostRelease    string    `orm:"column(post_release);type(text);null"`
-	LastDeploy     string    `orm:"column(last_deploy);type(text);null"`
-	Audit          int16     `orm:"column(audit);null"`
-	KeepVersionNum int       `orm:"column(keep_version_num)"`
-	CreatedAt      time.Time `orm:"column(created_at);type(datetime);null"`
-	UpdatedAt      time.Time `orm:"column(updated_at);type(datetime);null"`
-	P2p            int16     `orm:"column(p2p)"`
-	HostGroup      string    `orm:"column(host_group)"`
-	Gzip           int16     `orm:"column(gzip)"`
-	IsGroup        int16     `orm:"column(is_group)"`
-	PmsProName     string    `orm:"column(pms_pro_name);size(200)"`
+	Id                  int       `orm:"column(id);auto"`
+	UserId              uint      `orm:"column(user_id)"`
+	Name                string    `orm:"column(name);size(100);null"`
+	Tag                 string    `orm:"column(tag);size(100);null"` //标签 用户分组显示
+	Level               int16     `orm:"column(level)"`
+	Status              int16     `orm:"column(status)"`
+	Version             string    `orm:"column(version);size(32);null"`
+	RepoUrl             string    `orm:"column(repo_url);type(text);null"`
+	RepoUsername        string    `orm:"column(repo_username);size(50);null"`
+	RepoPassword        string    `orm:"column(repo_password);size(100);null"`
+	RepoMode            string    `orm:"column(repo_mode);size(50);null"`
+	RepoType            string    `orm:"column(repo_type);size(10);null"`
+	DeployFrom          string    `orm:"column(deploy_from);size(200)"`
+	Excludes            string    `orm:"column(excludes);type(text);null"`
+	ReleaseUser         string    `orm:"column(release_user);size(50)"`
+	ReleaseTo           string    `orm:"column(release_to);size(200)"`
+	ReleaseLibrary      string    `orm:"column(release_library);type(text);size(200)"`
+	ReleaseType         int16     `orm:"column(release_type)"` //发布方式 0短链接 1移动目录
+	Hosts               string    `orm:"column(hosts);type(text);null"`
+	PreDeploy           string    `orm:"column(pre_deploy);type(text);null"`
+	PostDeploy          string    `orm:"column(post_deploy);type(text);null"`
+	PreRelease          string    `orm:"column(pre_release);type(text);null"`
+	PostRelease         string    `orm:"column(post_release);type(text);null"`
+	PostReleaseTogether string    `orm:"column(post_release_together);type(text);null"` //所有服务器部属完成后，再统一执行的命令，主要防止单机部属速度不一而导致如服务重启不同时的问题
+	LastDeploy          string    `orm:"column(last_deploy);type(text);null"`
+	Audit               int16     `orm:"column(audit);null"`
+	KeepVersionNum      int       `orm:"column(keep_version_num)"`
+	CreatedAt           time.Time `orm:"column(created_at);type(datetime);null"`
+	UpdatedAt           time.Time `orm:"column(updated_at);type(datetime);null"`
+	ShowHistory         int16     `orm:"column(view_history)"` //显示较前次上线的代码变更
+	P2p                 int16     `orm:"column(p2p)"`
+	HostGroup           string    `orm:"column(host_group)"` //服务器分组，基于jumpserver groupid,groupid
+	Gzip                int16     `orm:"column(gzip)"`
+	IsGroup             int16     `orm:"column(is_group)"`
+	UserLock            int16     `orm:"column(user_lock)"` //用户锁定 uid
+	PmsProName          string    `orm:"column(pms_pro_name);size(200)"`
 }
 
 func (t *Project) TableName() string {
