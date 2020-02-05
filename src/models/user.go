@@ -3,10 +3,8 @@ package models
 import (
 	"errors"
 	"fmt"
-	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 
-	"library/common"
 	"reflect"
 	"strings"
 	"time"
