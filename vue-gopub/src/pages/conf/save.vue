@@ -140,7 +140,7 @@ README.md" style="width: 400px;"></el-input>
                                          :controls="false"></el-input-number>
                       </el-tooltip>
                     </el-form-item>
-                    <el-form-item label="服务器组">
+                    <el-form-item label="服务器组" v-if="server_groups.length>0">
                       <el-select v-model="form.HostGroupArray" filterable multiple default-first-option placeholder="请选择" style="width: 400px;">
                     <el-option
                       v-for="item in server_groups"

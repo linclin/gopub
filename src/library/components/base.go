@@ -150,6 +150,15 @@ type HostInfo struct {
 }
 
 func (c *BaseComponents) GetHosts() []HostInfo {
+	enableJumpserver, _ := beego.AppConfig.Bool("enableJumpserver")
+	if enableJumpserver == true {
+		return c.GetHosts_jumpserver()
+	} else {
+		return c.GetHosts_database()
+	}
+}
+
+func (c *BaseComponents) GetHosts_jumpserver() []HostInfo {
 	hostgroupStr := c.project.HostGroup
 	aGroupid := strings.Split(hostgroupStr, " ")
 	res := []HostInfo{}
@@ -175,7 +184,7 @@ func (c *BaseComponents) GetHosts() []HostInfo {
 /**
  * 获取host
  */
-func (c *BaseComponents) GetHosts_bak() []HostInfo {
+func (c *BaseComponents) GetHosts_database() []HostInfo {
 	hostsStr := c.project.Hosts
 	if c.task != nil && c.task.Hosts != "" {
 		hostsStr = c.task.Hosts
