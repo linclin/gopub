@@ -24,7 +24,7 @@ func (c *LockController) Get() {
 	}
 
 	if act == 1 {
-		project.UserLock = int16(c.User.Id)
+		project.UserLock = int(c.User.Id)
 	} else {
 		project.UserLock = 0
 	}

@@ -58,11 +58,11 @@
                         <el-form-item label="发布版本库:">
                             {{project.ReleaseLibrary}}
                         </el-form-item>
-                        <el-form-item label="发布服务器组:">
+                        <el-form-item label="发布服务器组:" v-if="groups.length>0">
                             <span v-for="n in groups">{{ n }} <br></span>
                         </el-form-item>
                         <el-form-item label="发布ip:">
-                            <span v-for="n in ips">{{ n }} <br></span>
+                            <span v-for="n in getHost">{{ n }} <br></span>
                         </el-form-item>
 
                     </el-col>
@@ -132,7 +132,22 @@
             }
         },
         computed: {
-            
+            getHost: function () {
+                //在get_task中会取基于服务器组的ip，如果取不得则原有的hosts ip列表
+                if(this.ips.length>0){
+                    return this.ips
+                }else{
+                    var hosts=[]
+                    if(this.task.Hosts && this.task.Hosts!=""){
+                        hosts=this.task.Hosts.split("\r\n")
+                    }else{
+                      if(this.project.Hosts && this.project.Hosts!=""){
+                        hosts=this.project.Hosts.split("\r\n")
+                      }
+                    }
+                    return hosts
+                }
+            },
             levelEnv: function () {
                 var env = ""
                 if (this.project.Level == 1) {
@@ -174,19 +189,22 @@
                         })
                         .then(({data: {data}}) => {
                     this.task = data
-                    //
-                    this.$http.get(port_conf.groupinfo, {
-                                params: {
-                                    hostgroup: data.HostGroup
+                    
+                    //如果HostGroup有数据，说明使用jumpserver接口管理服务器，则生成ip列表
+                    if(data.HostGroup!=""){
+                        this.$http.get(port_conf.groupinfo, {
+                                    params: {
+                                        hostgroup: data.HostGroup
+                                    }
+                                })
+                                .then(({data: {data}}) => {
+                                this.ips=data.ips
+                                this.groups=[]
+                                for (var i in data.id2groupname){
+                                    this.groups.push(data.id2groupname[i])
                                 }
-                            })
-                            .then(({data: {data}}) => {
-                            this.ips=data.ips
-                            this.groups=[]
-                            for (var i in data.id2groupname){
-                                this.groups.push(data.id2groupname[i])
-                            }
-                    })       
+                        })
+                    }
                 this.get_project()
             })
             .

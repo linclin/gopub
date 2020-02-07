@@ -2,6 +2,7 @@ package confcontrollers
 
 import (
 	"controllers"
+	"github.com/astaxie/beego"
 	"library/jumpserver"
 )
 
@@ -14,7 +15,12 @@ func (c *ServerGroupsController) Get() {
 		c.SetJson(2, nil, "not login")
 		return
 	}
-	group2id, _ := jumpserver.GetGroups()
-	c.SetJson(0, group2id, "")
+	enableJumpserver, _ := beego.AppConfig.Bool("enableJumpserver")
+	if enableJumpserver == true {
+		group2id, _ := jumpserver.GetGroups()
+		c.SetJson(0, group2id, "")
+	} else {
+		c.SetJson(0, nil, "")
+	}
 	return
 }

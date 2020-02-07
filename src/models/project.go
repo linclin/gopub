@@ -48,7 +48,7 @@ type Project struct {
 	HostGroup           string    `orm:"column(host_group)"` //服务器分组，基于jumpserver groupid,groupid
 	Gzip                int16     `orm:"column(gzip)"`
 	IsGroup             int16     `orm:"column(is_group)"`
-	UserLock            int16     `orm:"column(user_lock)"` //用户锁定 uid
+	UserLock            int       `orm:"column(user_lock)"` //用户锁定 uid
 	PmsProName          string    `orm:"column(pms_pro_name);size(200)"`
 }
 
