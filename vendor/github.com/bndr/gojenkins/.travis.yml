@@ -1,0 +1,22 @@
+language: go
+sudo: required
+
+services:
+  - docker
+
+go:
+  - "1.10"
+  - "1.11"
+  - "tip"
+
+before_install:
+  - docker build . --tag=gojenkins
+  - docker run -d --name=jenkins -p 8080:8080 --env JAVA_OPTS=-Djenkins.install.runSetupWizard=false gojenkins
+  - sleep 30
+  - docker inspect -f {{.State.Running}} jenkins | grep -q true
+
+install:
+  - go get github.com/stretchr/testify/assert
+  - go get golang.org/x/net/html
+
+script: go test --race -v ./...
