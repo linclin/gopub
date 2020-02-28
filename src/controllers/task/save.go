@@ -1,12 +1,12 @@
 package taskcontrollers
 
 import (
-	"controllers"
 	"encoding/json"
 	"github.com/astaxie/beego"
-	"library/common"
-	"library/components"
-	"models"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/common"
+	"github.com/linclin/gopub/src/library/components"
+	"github.com/linclin/gopub/src/models"
 	"time"
 )
 

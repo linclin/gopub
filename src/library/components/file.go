@@ -3,7 +3,7 @@ package components
 import (
 	"errors"
 	"fmt"
-	"library/common"
+	"github.com/linclin/gopub/src/library/common"
 	"os"
 	"strings"
 )

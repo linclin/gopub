@@ -1,17 +1,17 @@
 package routers
 
 import (
-	"controllers"
-	"controllers/api"
-	"controllers/conf"
-	"controllers/other"
-	"controllers/p2p"
-	"controllers/record"
-	"controllers/task"
-	"controllers/user"
-	"controllers/walle"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/controllers/api"
+	"github.com/linclin/gopub/src/controllers/conf"
+	"github.com/linclin/gopub/src/controllers/other"
+	"github.com/linclin/gopub/src/controllers/p2p"
+	"github.com/linclin/gopub/src/controllers/record"
+	"github.com/linclin/gopub/src/controllers/task"
+	"github.com/linclin/gopub/src/controllers/user"
+	"github.com/linclin/gopub/src/controllers/walle"
 	"time"
 )
 

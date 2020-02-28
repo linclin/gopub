@@ -1,9 +1,9 @@
 package taskcontrollers
 
 import (
-	"controllers"
 	"github.com/astaxie/beego/orm"
-	"library/common"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/common"
 )
 
 type ListController struct {

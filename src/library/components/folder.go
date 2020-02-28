@@ -4,9 +4,9 @@ import ()
 import (
 	"fmt"
 	"github.com/astaxie/beego"
-	"library/common"
-	"library/p2p/init_sever"
-	"models"
+	"github.com/linclin/gopub/src/library/common"
+	"github.com/linclin/gopub/src/library/p2p/init_sever"
+	"github.com/linclin/gopub/src/models"
 	"strings"
 	"time"
 )

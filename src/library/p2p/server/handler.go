@@ -7,11 +7,16 @@ import (
 	"errors"
 	log "github.com/cihub/seelog"
 	"github.com/julienschmidt/httprouter"
-	"github.com/xtfly/gokits"
+	"github.com/linclin/gopub/src/library/p2p/p2p"
 	"io/ioutil"
-	"library/p2p/p2p"
 	"strconv"
 	"strings"
+	"time"
+)
+
+const (
+	// For use with functions that take an expiration time.
+	NoExpiration time.Duration = -1
 )
 
 func (svc *Server) String(r int, s string, w http.ResponseWriter) {
@@ -64,7 +69,7 @@ func (s *Server) CreateTask(w http.ResponseWriter, r *http.Request, ps httproute
 	log.Infof("[%s] Recv task, file=%v, ips=%v", t.ID, t.DispatchFiles, t.DestIPs)
 
 	cti := NewCachedTaskInfo(s, t)
-	s.cache.Set(t.ID, cti, gokits.NoExpiration)
+	s.cache.Set(t.ID, cti, NoExpiration)
 	s.cache.OnEvicted(func(id string, v interface{}) {
 		log.Infof("[%s] Remove task cache", t.ID)
 		cti := v.(*CachedTaskInfo)
@@ -149,7 +154,7 @@ func (s *Server) CreateTaskNoHttp(t *CreateTask) error {
 	log.Infof("[%s] Recv task, file=%v, ips=%v", t.ID, t.DispatchFiles, t.DestIPs)
 
 	cti := NewCachedTaskInfo(s, t)
-	s.cache.Set(t.ID, cti, gokits.NoExpiration)
+	s.cache.Set(t.ID, cti, NoExpiration)
 	s.cache.OnEvicted(func(id string, v interface{}) {
 		log.Infof("[%s] Remove task cache", t.ID)
 		cti := v.(*CachedTaskInfo)

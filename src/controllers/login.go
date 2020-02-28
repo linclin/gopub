@@ -5,10 +5,10 @@ import (
 
 	"encoding/json"
 	"github.com/astaxie/beego/orm"
+	"github.com/linclin/gopub/src/library/common"
+	"github.com/linclin/gopub/src/library/ldap"
+	"github.com/linclin/gopub/src/models"
 	"golang.org/x/crypto/bcrypt"
-	"library/common"
-	"library/ldap"
-	"models"
 	"strconv"
 	"strings"
 	"time"

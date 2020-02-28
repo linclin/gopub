@@ -1,9 +1,9 @@
 package taskcontrollers
 
 import (
-	"controllers"
 	"github.com/astaxie/beego/orm"
-	"models"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/models"
 )
 
 type LastTaskController struct {

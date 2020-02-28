@@ -1,8 +1,8 @@
 package usercontrollers
 
 import (
-	"controllers"
 	"github.com/astaxie/beego/orm"
+	"github.com/linclin/gopub/src/controllers"
 )
 
 type UserProjectController struct {

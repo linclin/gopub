@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"library/common"
-	"models"
+	"github.com/linclin/gopub/src/library/common"
+	"github.com/linclin/gopub/src/models"
 	"net/url"
 	"time"
 )

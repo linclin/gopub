@@ -3,7 +3,7 @@ package apicontrollers
 import (
 	"encoding/json"
 	"errors"
-	"models"
+	"github.com/linclin/gopub/src/models"
 	"strconv"
 	"strings"
 )

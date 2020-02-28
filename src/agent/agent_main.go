@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"library/p2p/agent"
-	"library/p2p/common"
+	"github.com/linclin/gopub/src/library/p2p/agent"
+	"github.com/linclin/gopub/src/library/p2p/common"
 	"os"
 	"os/signal"
 )

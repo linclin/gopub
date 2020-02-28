@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/gaoyue1989/sshexec"
-	"library/common"
-	"library/jumpserver"
-	"library/ssh"
-	"models"
+	"github.com/cucued/sshexec"
+	"github.com/linclin/gopub/src/library/common"
+	"github.com/linclin/gopub/src/library/jumpserver"
+	"github.com/linclin/gopub/src/library/ssh"
+	"github.com/linclin/gopub/src/models"
 	"regexp"
 	"strings"
 	"time"
@@ -69,7 +69,11 @@ func (c *BaseComponents) runRemoteCommand(command string, hosts []string) ([]ssh
 	sshExecAgent := sshexec.SSHExecAgent{}
 	sshExecAgent.Worker = SSHWorker
 	sshExecAgent.TimeOut = time.Duration(SSHREMOTETIMEOUT) * time.Second
-	s, err := sshExecAgent.SshHostByKey(hosts, c.project.ReleaseUser, command)
+	port, _ := beego.AppConfig.Int("SshPort")
+	beego.Info(hosts)
+	beego.Info(port)
+	s, err := sshExecAgent.SshHostByKey(hosts, port, c.project.ReleaseUser, command)
+	beego.Info(err)
 	ss, _ := json.Marshal(s)
 	go c.LogTaskCommond(string(ss))
 	//获取执行时间
@@ -100,7 +104,8 @@ func (c *BaseComponents) copyFilesBySftp(src string, dest string, hosts []string
 	sshExecAgent := sshexec.SSHExecAgent{}
 	sshExecAgent.Worker = SSHWorker
 	sshExecAgent.TimeOut = time.Duration(SSHREMOTETIMEOUT) * time.Second
-	s, err := sshExecAgent.SftpHostByKey(hosts, c.project.ReleaseUser, src, dest)
+	port, _ := beego.AppConfig.Int("SshPort")
+	s, err := sshExecAgent.SftpHostByKey(hosts, port, c.project.ReleaseUser, src, dest)
 	ss, _ := json.Marshal(s)
 	go c.LogTaskCommond(string(ss))
 	//获取执行时间
@@ -168,11 +173,12 @@ func (c *BaseComponents) GetHosts_jumpserver() []HostInfo {
 			aIp2hostname, _ := jumpserver.GetIpsByGroupid(string(gid))
 			if len(aIp2hostname) > 0 {
 				for ip, _ := range aIp2hostname {
-					res = append(res, HostInfo{
-						Ip:      ip,
-						Port:    port,
-						Group:   1,
-						AllHost: ip + ":" + common.GetString(port)})
+					res = append(res,
+						HostInfo{
+							Ip:      ip,
+							Port:    port,
+							Group:   1,
+							AllHost: ip})
 				}
 			}
 		}
@@ -229,7 +235,7 @@ func (c *BaseComponents) GetHosts_database() []HostInfo {
 		}
 	}
 	for i, r := range res {
-		res[i].AllHost = r.Ip + ":" + common.GetString(r.Port)
+		res[i].AllHost = r.Ip
 	}
 	return res
 }

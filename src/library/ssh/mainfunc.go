@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/gaoyue1989/sshexec"
-	"library/p2p/init_sever"
-	"library/p2p/server"
+	"github.com/astaxie/beego"
+	"github.com/cucued/sshexec"
+	"github.com/linclin/gopub/src/library/p2p/init_sever"
+	"github.com/linclin/gopub/src/library/p2p/server"
 	"os/exec"
 	"path/filepath"
 	"time"
@@ -49,7 +50,7 @@ func LocalExec(cmd string) sshexec.ExecResult {
 	err := execCommand.Run()
 	if err != nil {
 		execResult.Error = err
-		execResult.ErrorInfo = err.Error()
+		// execResult.ErrorInfo = err.Error()
 		execResult.Result = b1.String()
 		return execResult
 	} else {
@@ -130,6 +131,7 @@ func TransP2pReName(id string, hosts []string, user string, localFilePath string
 	sshExecAgent := sshexec.SSHExecAgent{}
 	sshExecAgent.Worker = 10
 	sshExecAgent.TimeOut = 30 * time.Second
-	_, err := sshExecAgent.SshHostByKey(hosts, user, cmd)
+	port, _ := beego.AppConfig.Int("SshPort")
+	_, err := sshExecAgent.SshHostByKey(hosts, port, user, cmd)
 	return err
 }

@@ -1,10 +1,10 @@
 package taskcontrollers
 
 import (
-	"controllers"
 	"github.com/astaxie/beego/orm"
-	"library/components"
-	"models"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/components"
+	"github.com/linclin/gopub/src/models"
 )
 
 type ChangesController struct {

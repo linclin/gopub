@@ -1,9 +1,9 @@
 package confcontrollers
 
 import (
-	"controllers"
 	"github.com/astaxie/beego"
-	"library/jumpserver"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/jumpserver"
 )
 
 type ServerGroupsController struct {

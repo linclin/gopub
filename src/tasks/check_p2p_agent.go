@@ -1,9 +1,9 @@
 package tasks
 
 import (
-	"library/components"
-	"library/p2p/init_sever"
-	"models"
+	"github.com/linclin/gopub/src/library/components"
+	"github.com/linclin/gopub/src/library/p2p/init_sever"
+	"github.com/linclin/gopub/src/models"
 	"strings"
 	"time"
 

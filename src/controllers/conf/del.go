@@ -1,8 +1,8 @@
 package confcontrollers
 
 import (
-	"controllers"
-	"models"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/models"
 )
 
 type DelController struct {

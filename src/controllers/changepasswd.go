@@ -5,9 +5,9 @@ import (
 
 	"encoding/json"
 	"github.com/astaxie/beego/orm"
+	"github.com/linclin/gopub/src/library/common"
+	"github.com/linclin/gopub/src/models"
 	"golang.org/x/crypto/bcrypt"
-	"library/common"
-	"models"
 )
 
 type ChangePasswdController struct {

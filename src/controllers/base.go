@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"library/common"
+	"github.com/linclin/gopub/src/library/common"
 	"runtime"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"models"
+	"github.com/linclin/gopub/src/models"
 	"strings"
 )
 

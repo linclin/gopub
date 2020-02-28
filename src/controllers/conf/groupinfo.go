@@ -1,11 +1,10 @@
 package confcontrollers
 
 import (
-	"controllers"
 	"github.com/astaxie/beego"
-	"library/common"
-
-	"library/jumpserver"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/common"
+	"github.com/linclin/gopub/src/library/jumpserver"
 	"strings"
 )
 

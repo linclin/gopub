@@ -1,11 +1,11 @@
 package confcontrollers
 
 import (
-	"controllers"
+	"github.com/linclin/gopub/src/controllers"
 
 	"encoding/json"
 	"github.com/astaxie/beego"
-	"models"
+	"github.com/linclin/gopub/src/models"
 )
 
 type ConfController struct {

@@ -1,8 +1,8 @@
 package p2pcontrollers
 
 import (
-	"controllers"
-	"library/p2p/init_sever"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/p2p/init_sever"
 )
 
 type TaskController struct {

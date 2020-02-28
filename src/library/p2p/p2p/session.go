@@ -10,7 +10,8 @@ import (
 	"time"
 
 	log "github.com/cihub/seelog"
-	"github.com/xtfly/gokits"
+	"github.com/linclin/gopub/src/library/p2p/common"
+
 	"runtime"
 )
 
@@ -130,7 +131,7 @@ func (s *TaskSession) initInClient() error {
 	exsited := false
 	for _, fd := range s.task.MetaInfo.Files {
 		fd.Path = s.g.cfg.DownDir
-		exsited = gokits.FileExist(filepath.Join(s.g.cfg.DownDir, fd.Name))
+		exsited = common.FileExist(filepath.Join(s.g.cfg.DownDir, fd.Name))
 	}
 
 	if err := s.init(); err != nil {

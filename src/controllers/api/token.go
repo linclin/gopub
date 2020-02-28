@@ -1,8 +1,8 @@
 package apicontrollers
 
 import (
-	"library/common"
-	"models"
+	"github.com/linclin/gopub/src/library/common"
+	"github.com/linclin/gopub/src/models"
 	"strconv"
 	"strings"
 	"time"
@@ -65,11 +65,12 @@ func (c *TokenController) IssueToken() {
 	//nowtime := time.Now().Unix()
 	exptime := time.Now().Unix() + 3600
 	token := jwt.New(jwt.SigningMethodHS256)
-	token.Claims["iss"] = appid //The issuer of the token，token 是给谁的
+	claims, _ := token.Claims.(jwt.MapClaims)
+	claims["iss"] = appid //The issuer of the token，token 是给谁的
 	//token.Claims["sub"] = beego.AppConfig.String("AppName")                // The subject of the token，token 主题
 	//token.Claims["jti"] = appid + strconv.FormatInt(time.Now().Unix(), 10) //JWT ID。针对当前 token 的唯一标识
 	//token.Claims["iat"] = nowtime //Issued At。 token 创建时间， Unix 时间戳格式
-	token.Claims["exp"] = exptime //Expiration Time。 token 过期时间，Unix 时间戳格式
+	claims["exp"] = exptime //Expiration Time。 token 过期时间，Unix 时间戳格式
 	// The claims object allows you to store information in the actual token.
 	tokenString, err := token.SignedString([]byte(beego.AppConfig.String("SecretKey")))
 	// tokenString Contains the actual token you should share with your client.

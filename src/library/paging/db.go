@@ -1,7 +1,7 @@
 package paging
 
 import (
-	"library/common"
+	"github.com/linclin/gopub/src/library/common"
 	"strconv"
 	"strings"
 

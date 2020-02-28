@@ -1,9 +1,9 @@
 package othercontrollers
 
 import (
-	"controllers"
 	"fmt"
-	"library/common"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/common"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"

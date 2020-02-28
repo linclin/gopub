@@ -1,7 +1,7 @@
 package apicontrollers
 
 import (
-	"library/common"
+	"github.com/linclin/gopub/src/library/common"
 	"runtime"
 
 	"github.com/astaxie/beego"
@@ -52,11 +52,16 @@ func (c *BaseApiController) Prepare() {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return []byte(beego.AppConfig.String("SecretKey")), nil
 	})
-	AppId = common.GetInt(token.Claims["iss"])
-	if err != nil {
-		c.Data["json"] = map[string]string{"errcode": "103", "errmsg": "token验证失败"}
-		c.ServeJSON()
-		c.StopRun()
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if ok {
+		AppId = common.GetInt(claims["iss"])
+		if err != nil {
+			c.Data["json"] = map[string]string{"errcode": "103", "errmsg": "token验证失败"}
+			c.ServeJSON()
+			c.StopRun()
+		}
+	} else {
+
 	}
 	//}
 

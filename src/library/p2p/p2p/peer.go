@@ -6,7 +6,7 @@ import (
 	"time"
 
 	log "github.com/cihub/seelog"
-	"library/p2p/flowctrl"
+	"github.com/linclin/gopub/src/library/p2p/flowctrl"
 )
 
 const (

@@ -1,11 +1,11 @@
 package wallecontrollers
 
 import (
-	"controllers"
 	"github.com/astaxie/beego/orm"
-	"library/common"
-	"library/components"
-	"models"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/common"
+	"github.com/linclin/gopub/src/library/components"
+	"github.com/linclin/gopub/src/models"
 	"strings"
 	"time"
 )

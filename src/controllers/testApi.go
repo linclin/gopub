@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"models"
+	"github.com/linclin/gopub/src/models"
 )
 
 type TestApiController struct {

@@ -1,9 +1,9 @@
 package wallecontrollers
 
 import (
-	"controllers"
-	"library/components"
-	"models"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/components"
+	"github.com/linclin/gopub/src/models"
 )
 
 type DetectionsshController struct {

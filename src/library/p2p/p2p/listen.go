@@ -8,8 +8,7 @@ import (
 	"time"
 
 	log "github.com/cihub/seelog"
-	"github.com/xtfly/gokits"
-	"library/p2p/common"
+	"github.com/linclin/gopub/src/library/p2p/common"
 )
 
 // PeerConn wraps an incoming network connection and contains metadata that helps
@@ -148,7 +147,7 @@ func readString(buf *bytes.Buffer) (str string, err error) {
 }
 
 func writePHeader(conn net.Conn, taskID string, cfg *common.Config) (err error) {
-	pwd, salt := gokits.GenPasswd(cfg.Auth.Password, 8)
+	pwd, salt := common.GenPasswd(cfg.Auth.Password, 8)
 	all := [][]byte{[]byte(taskID),
 		[]byte(cfg.Auth.Username),
 		[]byte(pwd),
@@ -175,7 +174,7 @@ func (h *PHeader) validate(cfg *common.Config) error {
 		return fmt.Errorf("username or password is incorrect")
 	}
 
-	if !gokits.CmpPasswd(cfg.Auth.Password, h.Salt, h.Password) {
+	if !common.CmpPasswd(cfg.Auth.Password, h.Salt, h.Password) {
 		return fmt.Errorf("username or password is incorrect")
 	}
 

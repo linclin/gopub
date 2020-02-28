@@ -7,9 +7,8 @@ import (
 	"time"
 
 	log "github.com/cihub/seelog"
-	"github.com/xtfly/gokits"
-	"library/p2p/common"
-	"library/p2p/p2p"
+	"github.com/linclin/gopub/src/library/p2p/common"
+	"github.com/linclin/gopub/src/library/p2p/p2p"
 	"strconv"
 )
 
@@ -122,7 +121,7 @@ func (ct *CachedTaskInfo) Start() {
 			// 内容相同，如果失败了，则重新启动
 			c.out <- true
 			if ct.ti.Status == TaskFailed.String() {
-				ct.s.cache.Replace(ct.id, ct, gokits.NoExpiration)
+				ct.s.cache.Replace(ct.id, ct, NoExpiration)
 				log.Infof("[%s] Task status is FAILED, will start task try again", ct.id)
 				if ts := ct.createTask(); ts != TaskInProgress {
 					ct.endTask(ts)

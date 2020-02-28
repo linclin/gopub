@@ -1,11 +1,11 @@
 package p2pcontrollers
 
 import (
-	"controllers"
 	"encoding/json"
-	"library/components"
-	"library/p2p/init_sever"
-	"models"
+	"github.com/linclin/gopub/src/controllers"
+	"github.com/linclin/gopub/src/library/components"
+	"github.com/linclin/gopub/src/library/p2p/init_sever"
+	"github.com/linclin/gopub/src/models"
 	"strings"
 
 	"github.com/astaxie/beego"

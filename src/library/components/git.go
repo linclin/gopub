@@ -2,7 +2,7 @@ package components
 
 import (
 	"fmt"
-	"library/common"
+	"github.com/linclin/gopub/src/library/common"
 	"os"
 	"strings"
 )
