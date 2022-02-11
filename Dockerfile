@@ -18,9 +18,9 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     rm -rf /var/cache/apk/*   /tmp/* 
 ADD ./ /data/gopub/
 WORKDIR /data/gopub/vue-gopub
-RUN npm install -g node-gyp --registry=https://registry.npm.taobao.org && \
-    npm install node-sass  sass-loader --save-dev --registry=https://registry.npm.taobao.org --disturl=https://npm.taobao.org/dist --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/ && \
-    npm install --registry=https://registry.npm.taobao.org && \
+RUN npm install -g node-gyp --registry=https://registry.npmmirror.com && \
+    npm install node-sass  sass-loader --save-dev --registry=https://registry.npmmirror.com --disturl=https://npm.taobao.org/dist --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/ && \
+    npm install --registry=https://registry.npmmirror.com && \
     npm run build 
 
 FROM alpine:3.9.3
